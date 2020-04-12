@@ -1,0 +1,128 @@
+﻿@page "/PecMemberReports/PecMemberReports"
+@inherits PecMemberReportsBase
+
+<h2 style="text-align:center;color:forestgreen"> ՏԸՀ անդամներ </h2>
+<div class="alert @StatusClass">@Message</div>
+
+@if (Empty)
+{
+    <br />
+    <NavLink href="@($"PecMemberReports/PecMembersGen")" class="btn btn-info table-btn">
+        Վերադառնալ սկիզբ
+    </NavLink>
+    <br />
+}
+
+
+else
+{
+
+    @if (!Show)
+    {
+        <EditForm Model="@forQuery" OnValidSubmit="@HandleValidSubmit">
+
+
+            <div class="card-header" style="padding:10px">
+                <div class="form-group row">
+                    <label for="NameParty" class="col-sm-3">Կուսակցություն </label>
+                    <InputSelect class="form-control col-sm-8" @bind-Value="@forQuery.NameParty">
+                        @foreach (var item in ListNameParty)
+                                {
+                            <option value="@item.ToString().Replace("_", " ")">@item.ToString().Replace("_", " ")</option>
+                                }
+                        /**/
+                        /**/
+                        /**/
+                        /**/
+                        /**/
+                        /**/
+                        /**/
+                        /**/
+
+                    </InputSelect>
+                </div>
+                <div class="form-group row">
+                    <label for="dayElection" class="col-sm-3">Ընտրության օրը </label>
+                    <InputDate id="dayElection" class="form-control col-sm-8" @bind-Value="@forQuery.dayElection" placeholder="dayElection"></InputDate>
+                </div>
+                <div class="form-group row">
+                    <label for="isRep" class="col-sm-3"> Համապետական </label>
+                    <InputCheckbox id="isRep" class="form-control col-sm-8" @bind-Value="@forQuery.isRep" placeholder="isRep"></InputCheckbox>
+                    @*<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Employee.LastName)" />*@
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary edit-outline-btn">Հաստատել</button>
+            </div>
+
+
+
+        </EditForm>
+    }
+    else
+    {
+        <div class="card-header" style="padding:10px">
+
+            <label style="width:auto">Կուսակցություն՝&nbsp; </label>
+            <label style="width:auto;color:forestgreen">@forQuery.NameParty </label>
+            <br />
+            <label style="width:auto">Ընտրության օրը՝ &nbsp; </label>
+            <label style="width:auto;color:forestgreen">@forQuery.dayElectionArm</label>
+            <br />
+            <label style="width:auto">Ընտրության տեսակը՝ &nbsp; </label>
+            @if (!forQuery.isRep)
+            {
+                <label style="width:auto;color:forestgreen">Տեղական Ինքնակառավարման Մարմինների (ՏԻՄ)</label>
+            }
+            else
+            {
+                <label style="width:auto;color:forestgreen">Համապետական</label>
+            }
+
+            <br>
+            <label style="width:auto">Ընդհանուր՝</label>
+            <label style="width:auto;color:forestgreen">@timViewModelList.Count&nbsp; </label>
+            <label style="width:auto">նախագահ՝</label>
+            <label style="width:auto;color:forestgreen">@forQuery.countChairman&nbsp; </label>
+            <label style="width:auto">քարտուղար՝ </label>
+            <label style="width:auto;color:forestgreen">@forQuery.countSecretary&nbsp; </label>
+            <label style="width:auto">անդամ՝ </label>
+            <label style="width:auto;color:forestgreen">@forQuery.countMember&nbsp; </label>
+        </div>
+        <br />
+        <button class="btn btn-success" @onclick="SaveToDb">Պահպանել</button>
+        @*<button class="btn btn-primary" @onclick="DownloadExcel">Ներբեռնել</button>
+        <button class="btn btn-info" @onclick="SendMail">Ուղարկել հաղորդագրություն</button>*@
+        <NavLink href="@($"PecMemberReports/PecMembersGen")" class="btn btn-info table-btn">
+            Վերադառնալ սկիզբ
+        </NavLink>
+        <br />
+        <br />
+
+        <table class="table table-responsive-sm table-striped">
+            <thead>
+                <tr style="background-color:limegreen">
+                    <th style="text-align:center;color:white">Ընտրատարածք</th>
+                    <th style="text-align:center;color:white">Տեղամաս</th>
+                    <th style="text-align:center;color:white">Համայնք</th>
+                    <th style="text-align:center;color:white">Պաշտոն</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (timViewModelList != null)
+                {
+                    @foreach (var tim in timViewModelList)
+                    {
+                        <tr style="background-color:blanchedalmond">
+                            <td style="text-align:center;border-color:white">@tim.DistrictId</td>
+                            <td style="text-align:center;border-color:white">@tim.SubDistrictCode</td>
+                            <td style="text-align:center;border-color:white">@tim.Name</td>
+                            <td style="text-align:center;border-color:white">@tim.WorkPosition</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    }
+}

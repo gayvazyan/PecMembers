@@ -1,0 +1,20 @@
+﻿<th style="text-align: center; border-color:white; color: white">
+    @*<div class="col-10 row">*@
+    @ColumnTitle
+
+    <input class="form-control" placeholder="" value="@Value" @oninput="OnSearchTextChanged" />
+
+    @*</div>*@
+</th>
+
+@code {
+
+    [Parameter]
+    public string ColumnTitle { get; set; }
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnSearchTextChanged { get; set; }
+
+}

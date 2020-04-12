@@ -1,0 +1,138 @@
+﻿@page "/PecMembersTec/PecMembersAdd"
+@inherits PecMembersAddBase
+
+
+<h2 style="text-align:center;color:forestgreen">ՏԸՀ անդամի ավելացում</h2>
+<div class="alert @StatusClass">@Message</div>
+
+
+
+
+<div class="card-header" style="padding:10px">
+    <h4 style="text-align:center; color: darkblue">Քայլ 1:Մուտքագրեք վկայականի համարը</h4>
+    <label style="width:auto">Վկայական&nbsp;&nbsp; </label>
+    <input style="width:150px" @bind-value="Certeficate" />
+    <button class="btn btn-primary" @onclick="@PassportGet"> Մուտք</button>
+    <br>
+</div>
+
+
+
+
+@if (Show)
+{
+    if (!ShowAdded)
+    {
+        <h4 style="text-align:center;color:darkblue">Քայլ 2:Լրացրեք հավելյալ տվյալները</h4>
+        <EditForm Model="@pecMember" OnValidSubmit="@SavePecMember">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="col-12 row">
+                <div class="col-10 row">
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Անուն։</label>
+                            <div class="col-sm-8">
+                                <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@pecMember.LastName @pecMember.FirstName @pecMember.MiddleName</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Վկայական:</label>
+                            <div class="col-sm-8">
+                                <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@pecMember.Certeficate</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Անձնագիր:</label>
+                            <div class="col-sm-8">
+                                <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@pecMember.Passport</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Հ․Ծ․Հ․</label>
+                            <div class="col-sm-8">
+                                <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@pecMember.SSN</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Հաշվառման հասցե:</label>
+                            <div class="col-sm-8">
+                                <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@pecMember.Adress</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Հեռախոս</label>
+                            <div class="col-sm-8">
+                                <InputText style="width:170px" class="form-control col-sm-8" @bind-Value="@pecMember.PhoneNumber" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Էլ․ հասցե</label>
+                            <div class="col-sm-8">
+                                <InputText style="width:200px" class="form-control col-sm-8" @bind-Value="@pecMember.Email" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Ընտրության օր</label>
+                            <div class="col-sm-8">
+                                <InputDate style="width:170px" class="form-control col-sm-8" @bind-Value="@pecMember.ElectionDay" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Ընտրատարածք</label>
+                            <div class="col-sm-8">
+                                <InputSelect style="width:170px" id="TEC" class="form-control col-sm-8" @bind-Value="@pecMember.DistrictId" placeholder="TEC">
+                                    @foreach (var item in ListTEC)
+                                            {
+                                        <option value="@item">@item.ToString().Replace("_", " ")</option>
+                                            }
+                                    /**/
+                                    /**/
+                                </InputSelect>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Տեղամաս</label>
+                            <div class="col-sm-8">
+                                <InputNumber style="width:100px" class="form-control col-sm-8" @bind-Value="@pecMember.SubDistrictCode" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Համայնք</label>
+                            <div class="col-sm-8">
+                                <InputSelect style="width:170px" id="Comunity" class="form-control col-sm-8" @bind-Value="@pecMember.Commun" placeholder="Comunity">
+                                    @foreach (var item in ListCommunity)
+                                            {
+                                        <option value="@item">@item</option>
+                                            }
+                                    /**/
+                                    /**/
+                                    /**/
+                                </InputSelect>
+                                @*<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Comunity)" />*@
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <button type="submit" class="btn btn-primary ">Ավելացնել</button>&nbsp;&nbsp;
+                            <NavLink href="@($"/PecMembersTec/PecMembersTec")" class="btn btn-danger">
+                                Չեղարկել
+                            </NavLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    }
+    else
+    {
+
+        <NavLink href="@($"/PecMembersTec/PecMembersTec")" class="btn btn-outline-success table-btn">
+            <i class="fas fa-edit"></i>
+            Վերադառնալ ընդհանուր ցանկ
+        </NavLink>
+    }
+
+}
