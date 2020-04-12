@@ -1,10 +1,37 @@
 ﻿@page
 @model LogoutModel
-@{
-    ViewData["Title"] = "Log out";
-}
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
-</header>
+@{
+    ViewData["Title"] = "Ելք համակարգից";
+}
+<br />
+<br />
+<br />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card-group">
+                <div class="card p-4">
+                    <div class="card-body">
+                            <div class="card-header text-white bg-danger">
+                                <h6>Ելք համակարգից</h6>
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <label>Ցանկանու՞մ եք դուրս գալ համակարգից</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
+                                        &nbsp;<button type="submit" class="btn btn-lg btn-success px-4">Ելք</button> &nbsp;
+                                        <a class="btn btn-lg btn-secondary px-4" href="/?page=%2FAccount%2FHome%2FIndex">Չեղարկել</a>
+                                    </form>
+                                </div>
+
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
