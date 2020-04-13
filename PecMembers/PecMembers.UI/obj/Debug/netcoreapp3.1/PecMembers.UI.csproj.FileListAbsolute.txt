@@ -227,3 +227,4 @@ C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcor
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\PecMembers.UI.dll
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\PecMembers.UI.pdb
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\PecMembers.UI.genruntimeconfig.cache
+C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\PecMembers.UI.csprojAssemblyReference.cache

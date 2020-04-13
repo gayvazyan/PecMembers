@@ -4,6 +4,7 @@ using PecMembers.UI.Data.Enums;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
 using PecMembers.UI.Repositories.GenericRepoForCEC.ApplicantRepo;
+using PecMembers.UI.Repositories.GenericRepoForCEC.OldCerteficateRepo;
 using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
 using PecMembers.UI.ViewModel;
 using System;
@@ -22,7 +23,11 @@ namespace PecMembers.UI.Pages.PecMembersParty
         protected IApplicantRepasitory applicantRepasitory { get; set; }
         public Applicant applicant { get; set; }
         public List<Applicant> applicantList { get; set; } = null;
-
+        [Inject]
+        protected IOldCerteficateRepository oldCerteficateRepository  { get; set; }
+        public OldCerteficate oldCerteficate  { get; set; }
+        public List<OldCerteficate> oldCerteficateList { get; set; } = null;
+        
         [Inject]
         protected IPecMembersCurrentRepos pecMembersCurrentRepos { get; set; }
         public PecMembersCurrent pecMembersCurrent { get; set; }
@@ -71,7 +76,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
         {
 
             applicantList = applicantRepasitory.GetAll().ToList();
-
+            oldCerteficateList = oldCerteficateRepository.GetAll().ToList();
             foreach (var item in applicantList)
             {
                 PecMemberUIForParty pecMember = new PecMemberUIForParty
@@ -85,6 +90,24 @@ namespace PecMembers.UI.Pages.PecMembersParty
                     Adress = item.Address,
                     Email = item.Email,
                     SSN = item.Ssn
+
+                };
+                pecmemberUIList.Add(pecMember);
+            }
+
+            foreach (var item in oldCerteficateList)
+            {
+                PecMemberUIForParty pecMember = new PecMemberUIForParty
+                {
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    MiddleName = item.MiddleName,
+                    Passport = item.Passport,
+                    Certeficate = item.Certeficate,
+                    PhoneNumber = "",
+                    Adress = item.Address,
+                    Email = "",
+                    SSN = ""
 
                 };
                 pecmemberUIList.Add(pecMember);

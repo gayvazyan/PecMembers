@@ -18,6 +18,7 @@ using PecMembers.UI.Repositories.GenericRepoForPecMembers;
 using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
 using PecMembers.UI.Data;
 using Microsoft.AspNetCore.Identity;
+using PecMembers.UI.Repositories.GenericRepoForCEC.OldCerteficateRepo;
 
 namespace PecMembers.UI.Extensions
 {
@@ -48,6 +49,7 @@ namespace PecMembers.UI.Extensions
             services.AddTransient(typeof(IGenericRepoPecMember<>), typeof(GenericRepoPecMember<>));
 
             services.AddTransient<IApplicantRepasitory, ApplicantRepasitory>();
+            services.AddTransient<IOldCerteficateRepository, OldCerteficateRepository>();
             
 
             services.AddTransient<IElectionsRepo, ElectionsRepo>();
