@@ -45,7 +45,7 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "էլ․հասցե մուտքագրված չէ")]
             [EmailAddress(ErrorMessage ="Մուտքագրեք վավեր էլ․հասցե")]
             [Display(Name = "Էլ․հասցե")]
             public string Email { get; set; }

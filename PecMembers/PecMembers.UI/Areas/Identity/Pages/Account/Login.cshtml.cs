@@ -42,11 +42,11 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "էլ․հասցե մուտքագրված չէ")]
+            [EmailAddress(ErrorMessage = "Մուտքագրեք վավեր էլ․հասցե")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Գաղտնաբառը մուտքագրված չէ")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -96,7 +96,7 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Խափանված մուտքի փորց");
+                    ModelState.AddModelError(string.Empty, "Խափանված մուտքի փորձ");
                     return Page();
                 }
             }
