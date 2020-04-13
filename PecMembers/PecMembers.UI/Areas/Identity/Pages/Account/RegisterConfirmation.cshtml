@@ -4,16 +4,35 @@
     ViewData["Title"] = "Գրանցման հաստատում";
 }
 
-<h1>@ViewData["Title"]</h1>
 @{
     if (@Model.DisplayConfirmAccountLink)
     {
-<p> Գրանցումը  հաստատելու համար այցելեք Ձեր էլ․փոստ և անցեք հաստատման հղումով։</p>
+        <br />
+        <br />
+        <br />
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-9">
+                    <div class="card-group">
+                        <div class="card p-4">
+                            <div class="card-body">
+                                <div class="card-header text-white bg-info">
+                                    <h6>Գրանցման հաստատում</h6>
+                                </div>
+                                <hr />
+                                <div class="card-header text-white bg-success">
+                                    <h6>Ստուգեք Ձեր էլէկտրոնային հասցեն գրանցումը  հաստատելու համար</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     }
     else
     {
-<p>
-        Please check your email to confirm your account.
-</p>
+        <h6>Ստուգեք Ձեր էլէկտրոնային հասցեն գրանցումը  հաստատելու համար</h6>
     }
 }

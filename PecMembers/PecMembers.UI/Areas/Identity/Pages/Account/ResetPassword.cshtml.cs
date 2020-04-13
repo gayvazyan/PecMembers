@@ -27,18 +27,20 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Էլ․հասեն մուտքագրված չէ")]
+            [EmailAddress(ErrorMessage = "Մուտքագրեք վավեր էլ․հասցե")]
+            [Display(Name = "Էլ․հասցե")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Գաղտնաբառը մուտքագրված չէ")]
+            [StringLength(100, ErrorMessage = "{0}ը պետք է ունենա  առնվազն {2} և առավելագույն {1} նիշ։", MinimumLength = 6)]
             [DataType(DataType.Password)]
+            [Display(Name = "Գաղտնաբառ")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Կրկնել գաղտնաբառը")]
+            [Compare("Password", ErrorMessage = "Գաղտնաբառը և կրկնված գաղտնաբառերը տարբեր են")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }

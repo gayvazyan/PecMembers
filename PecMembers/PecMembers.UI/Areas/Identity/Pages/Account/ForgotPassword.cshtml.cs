@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using PecMembers.UI.Services;
 
 namespace PecMembers.UI.Areas.Identity.Pages.Account
 {
@@ -56,10 +57,27 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                var toMail = Input.Email;
+                var subject = " Հարգելի Email";
+                var text = new StringBuilder();
+                //text.AppendFormat("Հարգելի օգտատեր , {0}\n", user);
+                text.AppendFormat("Հարգելի օգտատեր");
+                text.AppendLine(" ՏԸՀ անդամներ համակարգում ձեր գաղտնաբառը փոխելու համար  անցեք հետևյալ հղմամբ՝ ");
+                text.AppendLine(callbackUrl.ToString());
+                text.AppendLine(", եթե հղումը ակտիվ չէ պարզապես պատճենեք և գրոծարկեք որևէ դիտարկչում։");
+                text.AppendLine("Եթե Դուք չէք ցանկանում փոխել Ձեր գախտնաբառը կամ գրանցված չէք վերը նշված համակարգում, պարզապես անտեսեք այս հաղորդագրությունը");
+                text.AppendLine("Հարգանքներով Գարո");
+                var textForMail = text.ToString();
+
+
+                MailSender.Sender(toMail, subject, textForMail);
+
+
+                //await _emailSender.SendEmailAsync(
+                //    Input.Email,
+                //    "Reset Password",
+                //    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

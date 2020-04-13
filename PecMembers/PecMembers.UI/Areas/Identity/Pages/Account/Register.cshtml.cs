@@ -46,12 +46,12 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress(ErrorMessage ="Մուտքագրեց վավեր էլ․հասցե")]
+            [EmailAddress(ErrorMessage ="Մուտքագրեք վավեր էլ․հասցե")]
             [Display(Name = "Էլ․հասցե")]
             public string Email { get; set; }
 
             [Required(ErrorMessage = "Գաղտնաբառը մուտքագրված չէ")]
-            [StringLength(100, ErrorMessage = " {0}-ը պետք է կազմված լինի նվազագույնը {2}  առավելագույնը {1} նիշ։ ", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = " {0}ը պետք է կազմված լինի նվազագույնը {2}  առավելագույնը {1} նիշ։ ", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Գաղտնաբառ")]
             public string Password { get; set; }

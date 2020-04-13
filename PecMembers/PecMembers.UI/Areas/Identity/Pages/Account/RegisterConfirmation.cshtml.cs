@@ -68,7 +68,7 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
             var text = new StringBuilder();
             //text.AppendFormat("Հարգելի օգտատեր , {0}\n", user);
             text.AppendFormat("Հարգելի օգտատեր" );
-            text.AppendLine(" <ՏԸՀ անդամներ> համակարգում ձեր գրանցումը հաջողությամբ ավարտելու համար անցեք հետևյալ հղմամբ՝ ");
+            text.AppendLine(" ՏԸՀ անդամներ համակարգում ձեր գրանցումը հաջողությամբ ավարտելու համար անցեք հետևյալ հղմամբ՝ ");
             text.AppendLine(EmailConfirmationUrl.ToString());
             text.AppendLine(", եթե հղումը ակտիվ չէ պարզապես պատճենեք և գրոծարկեք որևէ դիտարկչում։");
             text.AppendLine("Եթե Դուք չէք գրանցվել վերը նշված համակարգում, պարզապես անտեսեք այս հաղորդագրությունը");
