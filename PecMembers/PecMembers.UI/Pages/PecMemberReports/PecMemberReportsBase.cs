@@ -378,16 +378,16 @@ namespace PecMembers.UI.Pages.PecMemberReports
         {
             try
             {
-                var SmtpServer = _configuration["EmailConfiguration:SmtpServer"];
-                var SmtpPort = Convert.ToInt32(_configuration["EmailConfiguration:SmtpPort"]);
-                var SmtpUsername = _configuration["EmailConfiguration:SmtpUsername"];
-                var SmtpPassword = _configuration["EmailConfiguration:SmtpPassword"];
+                //var SmtpServer = _configuration["EmailConfiguration:SmtpServer"];
+                //var SmtpPort = Convert.ToInt32(_configuration["EmailConfiguration:SmtpPort"]);
+                //var SmtpUsername = _configuration["EmailConfiguration:SmtpUsername"];
+                //var SmtpPassword = _configuration["EmailConfiguration:SmtpPassword"];
                 var toMail = "garegin1555@gmail.com";
                 var subject = " Հարգելի garegin1555@gmail.com";
                 var text = " Դուք  , մասնակցել էք Ընտրությունների անցկացման մասնագիտական դասընթացներ ստուգարքին համակարգչային եղանակով և ստացել եք  Խնդիրը հանձնել եք + -ին, և ստացել եք  միավոր: ասընթացների մասին լրացուցիչ ինֆորմացիա կարող եք ստանալ այցելելով https://www.elections.am կայք  Մասնագիտական դասընտացներ բաժին";
 
 
-                MailSender.Sender(SmtpServer, SmtpPort, SmtpUsername, SmtpPassword, toMail, subject, text);
+                MailSender.Sender(toMail, subject, text);
 
                 StatusClass = "alert-success";
                 Message = "Հաղորդագրությունը ուղարկվեց";
