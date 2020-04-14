@@ -43,9 +43,9 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "էլ․հասցե մուտքագրված չէ")]
-            [EmailAddress(ErrorMessage = "Մուտքագրեք վավեր էլ․հասցե")]
-            public string Email { get; set; }
+            [Required(ErrorMessage = "Մուտքանունը մուտքագրված չէ")]
+          
+            public string UserNameInput { get; set; }
 
             [Required(ErrorMessage = "Գաղտնաբառը մուտքագրված չէ")]
             [DataType(DataType.Password)]
@@ -80,7 +80,7 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.UserNameInput, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

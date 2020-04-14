@@ -61,6 +61,18 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
             [Display(Name = "Կրկնել գաղտնաբառը")]
             [Compare("Password", ErrorMessage = "Գաղտնաբառը և կրկնված գաղտնաբառերը տարբեր են")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "Մուտքանունը մուտքագրված չէ")]
+            [Display(Name = "Մուտքանուն")]
+            public string UserNameInput { get; set; }
+
+            [Required(ErrorMessage = "Անունը մուտքագրված չէ")]
+            [Display(Name = "Անուն")]
+            public string UNameInput { get; set; }
+
+            [Required(ErrorMessage = "Անունը բազայի համար մուտքագրված չէ")]
+            [Display(Name = "Անունը բազայի համար")]
+            public string PNameInput { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,7 +87,7 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.UserNameInput, Email = Input.Email ,UName=Input.UNameInput, PName=Input.PNameInput };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
