@@ -1,0 +1,43 @@
+﻿@page "/Administrator/Roles/ListRoles"
+@inherits ListRolesBase
+
+<h2 style="text-align:center;color:forestgreen">Բոլոր Role-ները</h2>
+<div class="alert @StatusClass">@Message</div>
+
+@if (roles.Any())
+{
+    <NavLink href="@($"Administrator/Roles/CreateRole")" class="btn btn-primary">
+        Ավելացնել նոր Role
+    </NavLink>
+    <br />
+    foreach (var role in roles)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                Role Id : @role.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@role.Name</h5>
+            </div>
+            <div class="card-footer">
+                <NavLink href="@($"Administrator/Roles/EditRole/{role.Id}")" class="btn btn-info table-btn">
+                    Խմբագրել
+                </NavLink>
+                <a href="#" class="btn btn-danger">Հեռացնել</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+           Ստեղծված Role չկա
+        </div>
+        <div class="card-body">
+            <NavLink href="@($"Administrator/Roles/CreateRole")" class="btn btn-primary">
+                Ավելացնել նոր Role
+            </NavLink>
+        </div>
+    </div>
+}

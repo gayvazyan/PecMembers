@@ -1,0 +1,71 @@
+﻿@page "/Administrator/Roles/EditRole"
+@page "/Administrator/Roles/EditRole/{Id}"
+@inherits EditRoleBase
+
+<h2 style="text-align:center;color:forestgreen">Բոլոր Role-ները</h2>
+<div class="alert @StatusClass">@Message</div>
+
+@if (!Show)
+{
+    <NavLink href="@($"Administrator/Roles/ListRoles")" class="btn btn-primary">
+        Վերադառնալ Role-ների ցուցակ
+    </NavLink>
+
+    <EditForm Model="@editRoleViewModel" OnValidSubmit="@UpdateRole">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="col-12 row">
+            <div class="col-10 row">
+                <div class="col-xs-12 col-sm-8">
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Role Id:</label>
+                        <div class="col-sm-8">
+                            <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@editRoleViewModel.Id</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Role-ի անունը</label>
+                        <div class="col-sm-8">
+                            <InputText style="width:100px" class="form-control col-sm-8" @bind-Value="@editRoleViewModel.RoleName" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="submit" class="btn btn-primary ">Թարմացնել</button>&nbsp;&nbsp;
+                        <NavLink href="@($"/Administrator/Roles/ListRoles")" class="btn btn-danger">
+                            Չեղարկել
+                        </NavLink>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Այս Role-ի User-ները</h3>
+            </div>
+            <div class="card-body">
+                @if (editRoleViewModel.Users.Any())
+                {
+                    foreach (var user in editRoleViewModel.Users)
+                    {
+                        <h5 class="card-title">@user</h5>
+                    }
+                }
+                else
+                {
+                    <h5 class="card-title">Այս պահին չկան</h5>
+                }
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-primary" style="width:auto">Կցել User</a>
+                <a href="#" class="btn btn-primary" style="width:auto">Հեռացնել User</a>
+            </div>
+        </div>
+    </EditForm>
+}
+
+
+

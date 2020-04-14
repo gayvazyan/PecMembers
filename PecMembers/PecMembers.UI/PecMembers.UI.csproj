@@ -18,8 +18,4 @@
     <PackageReference Include="MimeKit" Version="2.6.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Administrator\" />
-  </ItemGroup>
-
 </Project>

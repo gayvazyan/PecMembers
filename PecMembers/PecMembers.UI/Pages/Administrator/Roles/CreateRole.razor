@@ -1,0 +1,36 @@
+﻿@page "/Administrator/Roles/CreateRole"
+@inherits CreateRoleBase
+
+<h2 style="text-align:center;color:forestgreen">Ստեղծել Role</h2>
+<div class="alert @StatusClass">@Message</div>
+@if (!Show)
+{
+    <EditForm Model="@createRoleViewModel" OnValidSubmit="@SaveRole">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="col-12 row">
+            <div class="col-10 row">
+                <div class="col-xs-12 col-sm-8">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Role-ի անունը</label>
+                        <div class="col-sm-8">
+                            <InputText style="width:100px" class="form-control col-sm-8" @bind-Value="@createRoleViewModel.RoleName" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="submit" class="btn btn-primary ">Ավելացնել</button>&nbsp;&nbsp;
+                        <NavLink href="@($"/Administrator/Roles/ListRoles")" class="btn btn-danger">
+                            Չեղարկել
+                        </NavLink>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+else
+{
+    <NavLink href="@($"Administrator/Roles/ListRoles")" class="btn btn-info table-btn">
+        Վերադառնալ ցուցակ
+    </NavLink>
+}

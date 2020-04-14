@@ -37,6 +37,7 @@ namespace PecMembers.UI.Extensions
 
          
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PecMembersDbContext>();
 
 
