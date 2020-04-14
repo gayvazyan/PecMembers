@@ -7,7 +7,7 @@ using PecMembers.UI.Data.PecMemberModels;
 
 namespace PecMembers.UI.Data
 {
-    public class PecMembersDbContext : IdentityDbContext
+    public class PecMembersDbContext : IdentityDbContext<ApplicationUser>
     {
         public PecMembersDbContext(DbContextOptions<PecMembersDbContext> options)
             : base(options)

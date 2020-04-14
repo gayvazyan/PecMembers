@@ -36,7 +36,7 @@ namespace PecMembers.UI.Extensions
                 options.UseSqlServer(configuration.GetConnectionString("PecmembersdbDbConnection")));
 
          
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<PecMembersDbContext>();
 
 
