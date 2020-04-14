@@ -1,0 +1,49 @@
+﻿@page "/Administrator/Roles/EditUsersInRole"
+@page "/Administrator/Roles/EditUsersInRole/{Id}"
+@inherits EditUsersInRoleBase
+
+<h2 style="text-align:center;color:forestgreen"> Կցել կամ հեռացնել User</h2>
+<div class="alert @StatusClass">@Message</div>
+
+
+@if (!Show)
+{
+
+    @if (userRoleViewModelList != null)
+    {
+        <EditForm Model="@userRoleViewModelList" OnValidSubmit="@AddUserRole">
+
+
+            <div class="card-header">
+                @foreach (var item in userRoleViewModelList)
+                {
+                    <div class="form-group row">
+                        <label>
+                            @*<InputText class="form-control col-sm-8" @bind-Value="@item.UserName"> </InputText>*@
+                            <label for="UserName" class="col-sm-3">Օգտատեր`@item.UserName </label>
+                            <InputCheckbox class="form-control col-sm-8" @bind-Value="@item.IsSelected"> </InputCheckbox>
+                        </label>
+                    </div>
+                }
+                <br>
+                <button type="submit" class="btn btn-primary ">Թարմացնել</button>&nbsp; &nbsp;
+                <NavLink href="@($"/Administrator/RolesEditRole/{@Id}")" class="btn btn-danger">
+                    Չեղարկել
+                </NavLink>
+            </div>
+
+
+        </EditForm>
+    }
+
+}
+else
+{
+    <NavLink href="@($"/Administrator/Roles/EditRole/{@Id}")" class="btn btn-success">
+        Վերադառնալ ցանկին
+    </NavLink>
+}
+
+
+
+

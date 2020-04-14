@@ -60,8 +60,9 @@
                 }
             </div>
             <div class="card-footer">
-                <a href="#" class="btn btn-primary" style="width:auto">Կցել User</a>
-                <a href="#" class="btn btn-primary" style="width:auto">Հեռացնել User</a>
+                <NavLink href="@($"Administrator/Roles/EditUsersInRole/{editRoleViewModel.Id}")" class="btn btn-info table-btn">
+                    Կցել կամ հեռացնել User
+                </NavLink>
             </div>
         </div>
     </EditForm>
