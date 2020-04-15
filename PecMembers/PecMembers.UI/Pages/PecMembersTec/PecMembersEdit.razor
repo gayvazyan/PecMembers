@@ -1,6 +1,7 @@
 ﻿@page "/PecMembersTec/PecMembersEdit"
 @page "/PecMembersTec/PecMembersEdit/{Id:int}"
 @inherits PecMembersEditBase
+@attribute [Authorize(Roles = "Admin,Tec")]
 
 <h2 style="text-align:center;color:forestgreen">ՏԸՀ անդամի տվյալների խմբագրում</h2>
 
@@ -78,6 +79,7 @@
                                 /**/
                                 /**/
                                 /**/
+                                /**/
                             </InputSelect>
                         </div>
                     </div>
@@ -95,6 +97,7 @@
                                     {
                                     <option value="@item">@item</option>
                                     }
+                                /**/
                                 /**/
                                 /**/
                                 /**/

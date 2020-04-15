@@ -1,14 +1,15 @@
 ﻿@page "/Administrator/Roles/ListRoles"
 @inherits ListRolesBase
+@attribute [Authorize(Roles = "Admin")]
 
-<h2 style="text-align:center;color:forestgreen">Բոլոր Role-ները</h2>
+<h2 style="text-align:center;color:forestgreen"> Role-ների ցանկը</h2>
 <div class="alert @StatusClass">@Message</div>
-
 @if (roles.Any())
 {
     <NavLink href="@($"Administrator/Roles/CreateRole")" class="btn btn-primary">
         Ավելացնել նոր Role
     </NavLink>
+    <br />
     <br />
     foreach (var role in roles)
     {
@@ -32,7 +33,7 @@ else
 {
     <div class="card">
         <div class="card-header">
-           Ստեղծված Role չկա
+            Ստեղծված Role չկա
         </div>
         <div class="card-body">
             <NavLink href="@($"Administrator/Roles/CreateRole")" class="btn btn-primary">

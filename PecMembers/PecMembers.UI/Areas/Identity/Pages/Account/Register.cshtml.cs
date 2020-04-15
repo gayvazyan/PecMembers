@@ -77,6 +77,7 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            ViewData["emailCheck"] = string.Empty;
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -88,6 +89,15 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.UserNameInput, Email = Input.Email ,UName=Input.UNameInput, PName=Input.PNameInput };
+               
+                var emailCheck = await _userManager.FindByEmailAsync(user.Email);
+
+                if (emailCheck != null)
+                {
+                    ViewData["emailCheck"] = user.Email +" էլ. հասցեով համակարգում առկա է գրանցում";
+                    return Page();
+                }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

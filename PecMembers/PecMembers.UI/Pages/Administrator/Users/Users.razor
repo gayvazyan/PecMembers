@@ -1,0 +1,36 @@
+﻿@page "/Administrator/Users/Users"
+@inherits UsersBase
+@attribute [Authorize(Roles = "Admin")]
+
+<h2 style="text-align:center;color:forestgreen">User-ների ցանկը </h2>
+<br />
+<div class="card-header" style="padding:10px">
+    <NavLink href="@($"Identity/Account/Register")" class="btn btn-primary table-btn">
+        Գրանցել նոր Օգտատեր
+    </NavLink>
+</div>
+
+@if (userList.Any())
+{
+  
+    foreach (var user in userList)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                User Id : @user.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@user.UserName</h5>
+            </div>
+            <div class="card-footer">
+                <NavLink href="@($"Administrator/Users/ListUser/{user.Id}")" class="btn btn-info table-btn">
+                    Դիտել
+                </NavLink>
+            </div>
+        </div>
+    }
+}
+
+
+
+

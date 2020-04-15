@@ -13,13 +13,14 @@
             <div class="card-group">
                 <div class="card p-4">
                     <div class="card-body">
-                      
+                       
                         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                             <div class="card-header text-white bg-info">
                                 <h6>Ստեղծել նոր User</h6>
                             </div>
                             <hr />
                             <div asp-validation-summary="All" class="text-danger"></div>
+                            <h6 style="color:red">  @ViewData["emailCheck"]</h6>
                             <div class="form-group">
                                 <label asp-for="Input.UserNameInput"></label>
                                 <input asp-for="Input.UserNameInput" class="form-control" />

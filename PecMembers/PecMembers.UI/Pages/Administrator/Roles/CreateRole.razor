@@ -1,8 +1,10 @@
 ﻿@page "/Administrator/Roles/CreateRole"
 @inherits CreateRoleBase
+@attribute [Authorize(Roles ="Admin")]
 
 <h2 style="text-align:center;color:forestgreen">Ստեղծել Role</h2>
 <div class="alert @StatusClass">@Message</div>
+<br />
 @if (!Show)
 {
     <EditForm Model="@createRoleViewModel" OnValidSubmit="@SaveRole">

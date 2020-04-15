@@ -1,5 +1,6 @@
 ﻿@page "/PecMembersParty/PecMembersParty"
 @inherits PecMembersPartyBase
+@attribute [Authorize(Roles = "Admin,Party")]
 
 <h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների լրացում կուսակցություններից</h3>
 <div class="card-header" style="padding:10px">

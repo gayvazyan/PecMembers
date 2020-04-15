@@ -1,7 +1,8 @@
 ﻿@page "/PecMembersTec/PecMembersTec"
 @inherits PecMembersTecBase
+@attribute [Authorize(Roles = "Admin,Tec")]
 
-    <h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների ավելացում ընտրատարածքից</h3>
+<h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների ավելացում ընտրատարածքից</h3>
 <div class="card-header" style="padding:10px">
     <NavLink href="@($"PecMembersTec/PecMembersAdd")" class="btn btn-success table-btn">
         Ավելացնել նորը
@@ -47,29 +48,29 @@
             {
 
                 {
-            <tr style="background-color:blanchedalmond">
-                <td style="border-color:black">@pecMemeber.ElectionDayView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
+                    <tr style="background-color:blanchedalmond">
+                        <td style="border-color:black">@pecMemeber.ElectionDayView</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
+                        <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
 
-                <td style="text-align:center;border-color:black">
+                        <td style="text-align:center;border-color:black">
 
-                    <NavLink href="@($"PecMembersTec/PecMembersEdit/{pecMemeber.Id}")" class="btn btn-primary table-btn">
-                        Խմբագրել
-                    </NavLink>
+                            <NavLink href="@($"PecMembersTec/PecMembersEdit/{pecMemeber.Id}")" class="btn btn-primary table-btn">
+                                Խմբագրել
+                            </NavLink>
 
 
-                    @*<button class="btn btn-danger text-black-50" @onclick="@(() => DeletePecMember(pecMemeber))">
-                Հեռացնել
-            </button>*@
-                </td>
-            </tr>
+                            @*<button class="btn btn-danger text-black-50" @onclick="@(() => DeletePecMember(pecMemeber))">
+                                    Հեռացնել
+                                </button>*@
+                        </td>
+                    </tr>
                 }
             }
         </tbody>

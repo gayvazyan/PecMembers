@@ -1,5 +1,6 @@
 ﻿@page "/PecMemberReports/PecMembersGen"
 @inherits PecMembersGenBase
+@attribute [Authorize(Roles = "Admin")]
 
 
 <div class="card-header" style="padding:10px">

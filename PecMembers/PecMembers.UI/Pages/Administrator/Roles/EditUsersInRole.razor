@@ -1,6 +1,7 @@
 ﻿@page "/Administrator/Roles/EditUsersInRole"
 @page "/Administrator/Roles/EditUsersInRole/{Id}"
 @inherits EditUsersInRoleBase
+@attribute [Authorize(Roles = "Admin")]
 
 <h2 style="text-align:center;color:forestgreen"> Կցել կամ հեռացնել User</h2>
 <div class="alert @StatusClass">@Message</div>

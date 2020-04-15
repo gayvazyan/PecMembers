@@ -1,44 +1,51 @@
-﻿<AuthorizeView>
-    <Authorized>
-        <div class="top-row pl-4 navbar navbar-dark">
-            <a class="navbar-brand" href="">ՏԸՀ անդամներ</a>
-            <button class="navbar-toggler" @onclick="ToggleNavMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
+﻿
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">ՏԸՀ անդամներ</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
 
-        <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-            <ul class="nav flex-column">
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true"></span> Սկիզ
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="PecMemberReports/PecMembersGen" Match="NavLinkMatch.All">
-                        <span class="oi oi-pencil" aria-hidden="true"></span> ՏԸՀ կազմ
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="PecMembersTec/PecMembersTec" Match="NavLinkMatch.All">
-                        <span class="oi oi-person" aria-hidden="true"></span> Ավելացնել ՏԸՀ/ԸԸՀ/
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="PecMembersParty/PecMembersParty" Match="NavLinkMatch.All">
-                        <span class="oi oi-people" aria-hidden="true"></span>Ավելացնել ՏԸՀ/կուս./
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="Administrator/Administrator" Match="NavLinkMatch.All">
-                        <span class="oi oi-cog" aria-hidden="true"></span>Կարգավորումներ
-                    </NavLink>
-                </li>
-            </ul>
-        </div>
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
 
-    </Authorized>
-</AuthorizeView>
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Սկիզ
+            </NavLink>
+        </li>
+        <AuthorizeView Roles="Admin">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="PecMemberReports/PecMembersGen" Match="NavLinkMatch.All">
+                    <span class="oi oi-pencil" aria-hidden="true"></span> ՏԸՀ կազմ
+                </NavLink>
+            </li>
+        </AuthorizeView>
+        <AuthorizeView Roles="Admin,Tec">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="PecMembersTec/PecMembersTec" Match="NavLinkMatch.All">
+                    <span class="oi oi-person" aria-hidden="true"></span> Ավելացնել ՏԸՀ/ԸԸՀ/
+                </NavLink>
+            </li>
+        </AuthorizeView>
+        <AuthorizeView Roles="Admin,Party">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="PecMembersParty/PecMembersParty" Match="NavLinkMatch.All">
+                    <span class="oi oi-people" aria-hidden="true"></span>Ավելացնել ՏԸՀ/կուս./
+                </NavLink>
+            </li>
+        </AuthorizeView>
+        <AuthorizeView Roles="Admin">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Administrator/Administrator" Match="NavLinkMatch.All">
+                    <span class="oi oi-cog" aria-hidden="true"></span>Կարգավորումներ
+                </NavLink>
+            </li>
+        </AuthorizeView>
+    </ul>
+</div>
+
+
 
 @code {
     private bool collapseNavMenu = true;

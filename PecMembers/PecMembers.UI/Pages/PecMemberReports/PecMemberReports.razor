@@ -1,5 +1,6 @@
 ﻿@page "/PecMemberReports/PecMemberReports"
 @inherits PecMemberReportsBase
+@attribute [Authorize(Roles = "Admin")]
 
 <h2 style="text-align:center;color:forestgreen"> ՏԸՀ անդամներ </h2>
 <div class="alert @StatusClass">@Message</div>
@@ -30,6 +31,8 @@ else
                                 {
                             <option value="@item.ToString().Replace("_", " ")">@item.ToString().Replace("_", " ")</option>
                                 }
+                        /**/
+                        /**/
                         /**/
                         /**/
                         /**/
@@ -91,7 +94,7 @@ else
         <br />
         <button class="btn btn-success" @onclick="SaveToDb">Պահպանել</button>
         @*<button class="btn btn-primary" @onclick="DownloadExcel">Ներբեռնել</button>
-        <button class="btn btn-info" @onclick="SendMail">Ուղարկել հաղորդագրություն</button>*@
+            <button class="btn btn-info" @onclick="SendMail">Ուղարկել հաղորդագրություն</button>*@
         <NavLink href="@($"PecMemberReports/PecMembersGen")" class="btn btn-info table-btn">
             Վերադառնալ սկիզբ
         </NavLink>

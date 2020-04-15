@@ -1,0 +1,45 @@
+﻿@page "/Administrator/Users/ListUser"
+@page "/Administrator/Users/ListUser/{Id}"
+@inherits ListUserBase
+@attribute [Authorize(Roles = "Admin")]
+
+
+@if (!Deleted)
+{
+    @if (user != null)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                User Id : @user.Id
+            </div>
+            <div class="card-header">
+                Մուտքանուն : @user.UserName
+            </div>
+            <div class="card-header">
+                Էլ հասցե: @user.Email
+            </div>
+            <div class="card-header">
+                Անուն: @user.PName
+            </div>
+            <div class="card-header">
+                Անունը բազայում: @user.UName
+            </div>
+
+            <div class="card-footer">
+                <NavLink href="@($"Administrator/Users/Users")" class="btn btn-info table-btn">
+                    Ետ
+                </NavLink>
+                <button class="btn btn-danger" @onclick="DeleteUser">Հեռացնել</button>
+            </div>
+        </div>
+    }
+
+}
+else
+{
+    <div class="alert @StatusClass">@Message</div>
+    <br />
+    <NavLink href="@($"Administrator/Users/Users")" class="btn btn-info table-btn">
+        Վերադառնալ Օգտատերերի ցանկ
+    </NavLink>
+}

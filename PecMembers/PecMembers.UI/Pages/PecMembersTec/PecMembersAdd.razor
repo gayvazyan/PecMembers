@@ -1,5 +1,6 @@
 ﻿@page "/PecMembersTec/PecMembersAdd"
 @inherits PecMembersAddBase
+@attribute [Authorize(Roles = "Admin,Tec")]
 
 
 <h2 style="text-align:center;color:forestgreen">ՏԸՀ անդամի ավելացում</h2>
@@ -90,6 +91,7 @@
                                             }
                                     /**/
                                     /**/
+                                    /**/
                                 </InputSelect>
                             </div>
                         </div>
@@ -107,6 +109,7 @@
                                             {
                                         <option value="@item">@item</option>
                                             }
+                                    /**/
                                     /**/
                                     /**/
                                     /**/

@@ -1,6 +1,7 @@
 ﻿@page "/PecMembersParty/PecMembersPartyEdit"
 @page "/PecMembersParty/PecMembersPartyEdit/{Id:int}"
 @inherits PecMembersPartyEditBase
+@attribute [Authorize(Roles = "Admin,Party")]
 
 <h2 style="text-align:center;color:forestgreen">ՏԸՀ անդամի ավելացում</h2>
 <div class="alert @StatusClass">@Message</div>

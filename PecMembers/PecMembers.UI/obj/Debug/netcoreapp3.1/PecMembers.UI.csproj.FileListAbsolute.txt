@@ -238,3 +238,7 @@ C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcor
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\_Imports.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Administrator\Roles\EditUsersInRole.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\Administrator\Roles\EditUsersInRole.razor.g.cs
+C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Administrator\Users\Users.razor.g.cs
+C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\Administrator\Users\Users.razor.g.cs
+C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Administrator\Users\ListUser.razor.g.cs
+C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\Administrator\Users\ListUser.razor.g.cs
