@@ -3,71 +3,66 @@
 @inherits EditRoleBase
 @attribute [Authorize(Roles = "Admin")]
 
-    <h2 style="text-align:center;color:forestgreen">Role-ների ցանկը</h2>
+<h2 style="text-align:center;color:forestgreen">Role-ների ցանկը</h2>
 <div class="alert @StatusClass">@Message</div>
-
-@if (!Show)
+<NavLink href="@($"Administrator/Roles/ListRoles")" class="btn btn-primary">
+    Վերադառնալ Role-ների ցուցակ
+</NavLink>
+@if (!Deleted)
 {
-    <NavLink href="@($"Administrator/Roles/ListRoles")" class="btn btn-primary">
-        Վերադառնալ Role-ների ցուցակ
-    </NavLink>
+<button class="btn btn-danger" @onclick="DeleteRole">Հեռացնել այս Role-ը </button>
+    if (editRoleViewModel != null)
+    {
+        <EditForm Model="@editRoleViewModel" OnValidSubmit="@UpdateRole">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="col-12 row">
+                <div class="col-10 row">
+                    <div class="col-xs-12 col-sm-8">
 
-    <EditForm Model="@editRoleViewModel" OnValidSubmit="@UpdateRole">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="col-12 row">
-            <div class="col-10 row">
-                <div class="col-xs-12 col-sm-8">
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Role Id:</label>
-                        <div class="col-sm-8">
-                            <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@editRoleViewModel.Id</label>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Role Id:</label>
+                            <div class="col-sm-8">
+                                <label type="text" readonly class="form-control-plaintext" style="color:forestgreen">@editRoleViewModel.Id</label>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Role-ի անունը</label>
-                        <div class="col-sm-8">
-                            <InputText style="width:100px" class="form-control col-sm-8" @bind-Value="@editRoleViewModel.RoleName" />
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Role-ի անունը</label>
+                            <div class="col-sm-8">
+                                <InputText style="width:100px" class="form-control col-sm-8" @bind-Value="@editRoleViewModel.RoleName" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <button type="submit" class="btn btn-primary ">Թարմացնել</button>&nbsp;&nbsp;
-                        <NavLink href="@($"/Administrator/Roles/ListRoles")" class="btn btn-danger">
-                            Չեղարկել
-                        </NavLink>
+                        <div class="form-group row">
+                            <button type="submit" class="btn btn-primary ">Թարմացնել</button>&nbsp;&nbsp;
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-header">
-                <h3>Այս Role-ի User-ները</h3>
-            </div>
-            <div class="card-body">
-                @if (editRoleViewModel.Users.Any())
-                {
-                    foreach (var user in editRoleViewModel.Users)
+            <div class="card">
+                <div class="card-header">
+                    <h3>Այս Role-ի User-ները</h3>
+                </div>
+                <div class="card-body">
+                    @if (editRoleViewModel.Users.Any())
                     {
-                        <h5 class="card-title">@user</h5>
+                        foreach (var user in editRoleViewModel.Users)
+                        {
+                            <h5 class="card-title">@user</h5>
+                        }
                     }
-                }
-                else
-                {
-                    <h5 class="card-title">Այս պահին չկան</h5>
-                }
+                    else
+                    {
+                        <h5 class="card-title">Այս պահին չկան</h5>
+                    }
+                </div>
+                <div class="card-footer">
+                    <NavLink href="@($"Administrator/Roles/EditUsersInRole/{editRoleViewModel.Id}")" class="btn btn-info table-btn">
+                        Կցել կամ հեռացնել User
+                    </NavLink>
+                </div>
             </div>
-            <div class="card-footer">
-                <NavLink href="@($"Administrator/Roles/EditUsersInRole/{editRoleViewModel.Id}")" class="btn btn-info table-btn">
-                    Կցել կամ հեռացնել User
-                </NavLink>
-            </div>
-        </div>
-    </EditForm>
+        </EditForm>
+    }
 }
-
 
 

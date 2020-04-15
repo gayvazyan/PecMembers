@@ -24,10 +24,10 @@ namespace PecMembers.UI.Pages.PecMembersParty
         public Applicant applicant { get; set; }
         public List<Applicant> applicantList { get; set; } = null;
         [Inject]
-        protected IOldCerteficateRepository oldCerteficateRepository  { get; set; }
-        public OldCerteficate oldCerteficate  { get; set; }
+        protected IOldCerteficateRepository oldCerteficateRepository { get; set; }
+        public OldCerteficate oldCerteficate { get; set; }
         public List<OldCerteficate> oldCerteficateList { get; set; } = null;
-        
+
         [Inject]
         protected IPecMembersCurrentRepos pecMembersCurrentRepos { get; set; }
         public PecMembersCurrent pecMembersCurrent { get; set; }
@@ -113,9 +113,20 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 pecmemberUIList.Add(pecMember);
             }
         }
+
+        public List<PecMembersCurrent> GetAllPecMembers(DateTime electionDay)
+        {
+            List<PecMembersCurrent> allPecMembers = pecMembersCurrentRepos.GetAll()
+                                                                           .Where(p => p.ElectionDay == electionDay)
+                                                                           .ToList();
+            return allPecMembers;
+        }
         public void GetResult()
         {
             pecMember = pecmemberUIList.FirstOrDefault(p => p.Certeficate == Certeficate);
+
+            PecMembersCurrent result = GetAllPecMembers(pecMembersCurrent.ElectionDay).FirstOrDefault(p => p.Certeficate == Certeficate);
+
             if (pecMember == null)
             {
                 StatusClass = "alert-danger";
@@ -123,19 +134,26 @@ namespace PecMembers.UI.Pages.PecMembersParty
             }
             else
             {
-                FirstName = pecMember.FirstName;
-                LastName = pecMember.LastName;
-                MiddleName = pecMember.MiddleName;
-                PhoneNumber = pecMember.PhoneNumber;
-                Passport = pecMember.Passport;
-                Email = pecMember.Email;
-                Adress = pecMember.Adress;
-                SSN = pecMember.SSN;
-                StatusClass = "alert-success";
-                Message = "Մուտքագրված է՝ " + LastName + " " + FirstName + " քաղաքացու տվյալները։ Շարունակեք Քայլ 2-ը։";
-                Show = true;
+                if (result == null || result.Id == Id)
+                {
+                    FirstName = pecMember.FirstName;
+                    LastName = pecMember.LastName;
+                    MiddleName = pecMember.MiddleName;
+                    PhoneNumber = pecMember.PhoneNumber;
+                    Passport = pecMember.Passport;
+                    Email = pecMember.Email;
+                    Adress = pecMember.Adress;
+                    SSN = pecMember.SSN;
+                    StatusClass = "alert-success";
+                    Message = "Մուտքագրված է՝ " + LastName + " " + FirstName + " քաղաքացու տվյալները։ Շարունակեք Քայլ 2-ը։";
+                    Show = true;
+                }
+                else
+                {
+                    StatusClass = "alert-danger";
+                    Message = Certeficate + " վկայականի համարով քաղաքացու տվյալները արդեն մուտքագրված են համակարգ։";
+                }
             }
-
         }
         public async Task SavePecMember()
         {
@@ -147,9 +165,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 pecMembersCurrent.LastName = pecMember.LastName;
                 pecMembersCurrent.MiddleName = pecMember.MiddleName;
                 pecMembersCurrent.Passport = pecMember.Passport;
-                pecMembersCurrent.PhoneNumber = PhoneNumber;
+                pecMembersCurrent.PhoneNumber = pecMember.PhoneNumber;
                 pecMembersCurrent.Adress = pecMember.Adress;
-                pecMembersCurrent.Email = Email;
+                pecMembersCurrent.Email = pecMember.Email;
                 pecMembersCurrent.SSN = pecMember.SSN;
                 pecMembersCurrent.IsEmpty = true;
 
@@ -162,10 +180,10 @@ namespace PecMembers.UI.Pages.PecMembersParty
             {
 
                 StatusClass = "alert-danger";
-                Message =ex.Message;
+                Message = ex.Message;
             }
-            
-            
+
+
         }
     }
 }

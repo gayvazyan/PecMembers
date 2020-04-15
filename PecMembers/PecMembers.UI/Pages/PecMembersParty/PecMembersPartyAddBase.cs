@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using PecMembers.UI.Data;
 using PecMembers.UI.Data.Enums;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
@@ -17,6 +20,15 @@ namespace PecMembers.UI.Pages.PecMembersParty
 {
     public class PecMembersPartyAddBase : ComponentBase
     {
+        [Inject]
+        protected UserManager<ApplicationUser> userManager { get; set; }
+        public ApplicationUser user { get; set; }
+        [Parameter]
+        public string NameParty { get; set; } = string.Empty;
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
+
         [Parameter]
         public int Id { get; set; }
         [Inject]
@@ -26,7 +38,6 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
         [Parameter]
         public List<string> ListNameParty { get; set; }
-        public string NameParty { get; set; } = string.Empty;
         public DateTime dayElection { get; set; } = DateTime.Now;
 
 
@@ -59,6 +70,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
         protected override async Task OnInitializedAsync()
         {
+            NameParty = await GetPartyName();
             if (Id != 0)
             {
                 ReturnCondition();
@@ -71,6 +83,16 @@ namespace PecMembers.UI.Pages.PecMembersParty
             }
             GetEnumsValue();
             await base.OnInitializedAsync();
+        }
+
+
+        private async Task<string> GetPartyName()
+        {
+            var authState = await authenticationStateTask;
+            var user1 = authState.User;
+            user = await userManager.GetUserAsync(user1);
+            string partyN = user.PName;
+            return partyN;
         }
 
         public void ReturnCondition()

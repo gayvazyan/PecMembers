@@ -29,7 +29,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
         [Parameter]
         public string Certeficate { get; set; } = string.Empty;
 
-       
+
         [Parameter]
         public PecMemberUIforTEC pecMember { get; set; } = new PecMemberUIforTEC { FirstName = "", LastName = "", Certeficate = "", MiddleName = "", Passport = "" };
         public List<PecMemberUIforTEC> pecmemberUIList = new List<PecMemberUIforTEC>();
@@ -82,7 +82,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 };
                 pecmemberUIList.Add(pecMember);
             }
-          
+
             foreach (var item in oldCerteficateList)
             {
                 PecMemberUIforTEC pecMember = new PecMemberUIforTEC
@@ -102,6 +102,15 @@ namespace PecMembers.UI.Pages.PecMembersTec
             }
         }
 
+        public List<PecMembersCurrent> GetAllPecMembers(DateTime electionDay)
+        {
+            List<PecMembersCurrent> allPecMembers = pecMembersCurrentRepos.GetAll()
+                                                                           .Where(p => p.ElectionDay == electionDay)
+                                                                           .ToList();
+            return allPecMembers;
+        }
+
+
 
         public void GetEnumsValue()
         {
@@ -120,6 +129,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
             ShowAdded = false;
             Show = false;
             pecMember = pecmemberUIList.FirstOrDefault(p => p.Certeficate == Certeficate);
+
             if (pecMember == null)
             {
                 StatusClass = "alert-danger";
@@ -139,45 +149,53 @@ namespace PecMembers.UI.Pages.PecMembersTec
             int? DistrictIdInt;
             DistrictIdInt = (pecMember.DistrictId != 0) ? (ListTEC.IndexOf(DistrictIdString) + 1) : 0;
 
+            var result = GetAllPecMembers(pecMember.ElectionDay).Where(p => p.Certeficate == Certeficate).ToList();
 
-            PecMembersCurrent pecMembersCurrent = new PecMembersCurrent();
-            try
+            if (result.Count == 0)
             {
-                pecMembersCurrent.CreatedDay = DateTime.Now;
-                pecMembersCurrent.ElectionDay = pecMember.ElectionDay;
-                pecMembersCurrent.Certeficate = pecMember.Certeficate;
-                pecMembersCurrent.FirstName = pecMember.FirstName;
-                pecMembersCurrent.LastName = pecMember.LastName;
-                pecMembersCurrent.MiddleName = pecMember.MiddleName;
-                pecMembersCurrent.Passport = pecMember.Passport;
-                pecMembersCurrent.SSN = pecMember.SSN;
-                pecMembersCurrent.PhoneNumber = pecMember.PhoneNumber;
-                pecMembersCurrent.Adress = pecMember.Adress;
-                pecMembersCurrent.Email = pecMember.Email;
-                pecMembersCurrent.WorkPosition = "անդամ";
-                pecMembersCurrent.WorkPositionId = 5;
-                pecMembersCurrent.PartyName = "ՏԸՀ";
-                pecMembersCurrent.SubDistrictCode = pecMember.SubDistrictCode;
-                pecMembersCurrent.DistrictId = DistrictIdInt;
-                pecMembersCurrent.Name = pecMember.Commun.ToString();
-                pecMembersCurrent.SubDistrict= DistrictIdInt.ToString()+"/"+ pecMember.SubDistrictCode;
-                pecMembersCurrent.IsEmpty = true;
+                PecMembersCurrent pecMembersCurrent = new PecMembersCurrent();
+                try
+                {
+                    pecMembersCurrent.CreatedDay = DateTime.Now;
+                    pecMembersCurrent.ElectionDay = pecMember.ElectionDay;
+                    pecMembersCurrent.Certeficate = pecMember.Certeficate;
+                    pecMembersCurrent.FirstName = pecMember.FirstName;
+                    pecMembersCurrent.LastName = pecMember.LastName;
+                    pecMembersCurrent.MiddleName = pecMember.MiddleName;
+                    pecMembersCurrent.Passport = pecMember.Passport;
+                    pecMembersCurrent.SSN = pecMember.SSN;
+                    pecMembersCurrent.PhoneNumber = pecMember.PhoneNumber;
+                    pecMembersCurrent.Adress = pecMember.Adress;
+                    pecMembersCurrent.Email = pecMember.Email;
+                    pecMembersCurrent.WorkPosition = "անդամ";
+                    pecMembersCurrent.WorkPositionId = 5;
+                    pecMembersCurrent.PartyName = "ՏԸՀ";
+                    pecMembersCurrent.SubDistrictCode = pecMember.SubDistrictCode;
+                    pecMembersCurrent.DistrictId = DistrictIdInt;
+                    pecMembersCurrent.Name = pecMember.Commun.ToString();
+                    pecMembersCurrent.SubDistrict = DistrictIdInt.ToString() + "/" + pecMember.SubDistrictCode;
+                    pecMembersCurrent.IsEmpty = true;
 
-                Certeficate = string.Empty;
+                    Certeficate = string.Empty;
 
-                ShowAdded = true;
-                await pecMembersCurrentRepos.InsertAsync(pecMembersCurrent);
-                StatusClass = "alert-success";
-                Message = "Քաղաքացի " + pecMembersCurrent.FullName + " տվյալները հաջողությամբ գրանցվեց";
+                    ShowAdded = true;
+                    await pecMembersCurrentRepos.InsertAsync(pecMembersCurrent);
+                    StatusClass = "alert-success";
+                    Message = "Քաղաքացի " + pecMembersCurrent.FullName + " տվյալները հաջողությամբ գրանցվեց";
+                }
+                catch (Exception ex)
+                {
+
+                    StatusClass = "alert-danger";
+                    Message = ex.Message;
+                }
+
             }
-            catch (Exception ex)
+            else
             {
-
                 StatusClass = "alert-danger";
-                Message = ex.Message;
+                Message = Certeficate + " վկայականի համարով քաղաքացու տվյալները արդեն մուտքագրված են համակարգ։";
             }
-
-
 
         }
     }

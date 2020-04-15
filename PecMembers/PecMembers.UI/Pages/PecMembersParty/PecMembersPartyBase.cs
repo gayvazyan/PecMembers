@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using PecMembers.UI.Data;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
 using PecMembers.UI.Repositories.GenericRepoForCEC.ApplicantRepo;
@@ -14,6 +17,19 @@ namespace PecMembers.UI.Pages.PecMembersParty
 {
     public class PecMembersPartyBase : ComponentBase
     {
+
+        [Inject]
+        protected RoleManager<IdentityRole> roleManager { get; set; }
+        [Inject]
+        protected UserManager<ApplicationUser> userManager { get; set; }
+        public ApplicationUser user { get; set; }
+        [Parameter]
+        public string userName { get; set; } = string.Empty;
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
         public List<PecMemberViewModel> pecMemberViewModelList { get; set; }
         public List<PecMemberViewModel> filteredPecMemberViewModelList { get; set; }
 
@@ -49,8 +65,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
         protected bool Show = false;
         protected override async Task OnInitializedAsync()
         {
+            userName = await GetPartyName();
             InitializedPecMember();
-            pecMemberViewModelList = InitializedPecMemberViewModel();
+            pecMemberViewModelList = InitializedPecMemberViewModel().Where(p=>p.PartyView==userName).ToList();
             filteredPecMemberViewModelList = pecMemberViewModelList;
             await base.OnInitializedAsync();
         }
@@ -60,14 +77,14 @@ namespace PecMembers.UI.Pages.PecMembersParty
             pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
         }
 
-
-        //public void DeletePecMember(PecMemberSave pecMemeber)
-        //{
-        //    pecMemberRepository.Delete(pecMemeber);
-        //    StatusClass = "alert-success";
-        //    Message = "Հաջողությամբ հեռացվեց";
-        //}
-
+        private async Task<string> GetPartyName()
+        {
+            var authState = await authenticationStateTask;
+            var user1 = authState.User;
+            user = await userManager.GetUserAsync(user1);
+            string partyN = user.PName;
+            return partyN;
+        }
 
         public List<PecMemberViewModel> InitializedPecMemberViewModel()
         {
@@ -80,13 +97,13 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 {
                     Id = item.Id,
                     ElectionDayView = item.ElectionDay.ToString("dd.MM.yyyy"),
-                    DistrictView = item.DistrictId.ToString() !=null? item.DistrictId.ToString():"",
+                    DistrictView = item.DistrictId.ToString() != null ? item.DistrictId.ToString() : "",
                     SubDistrictCodeView = item.SubDistrictCode.ToString() != null ? item.SubDistrictCode.ToString() : "",
                     CommunityView = item.Name != null ? item.Name : "",
                     FullName = item.LastName + " " + item.FirstName + " " + item.MiddleName,
                     CerteficateView = item.Certeficate != null ? item.Certeficate : "",
                     PhoneNumberView = item.PhoneNumber != null ? item.PhoneNumber : "",
-                    PartyView = item.PartyName != null ? item.PartyName: "",
+                    PartyView = item.PartyName != null ? item.PartyName : "",
                     PositionView = item.WorkPosition != null ? item.WorkPosition : "",
                 };
                 pecMemberViewModelList.Add(pecMemberViewModel);

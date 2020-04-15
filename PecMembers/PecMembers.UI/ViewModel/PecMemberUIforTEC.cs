@@ -16,6 +16,8 @@ namespace PecMembers.UI.ViewModel
         public string Passport { get; set; }
         public string Certeficate { get; set; }
         public string PhoneNumber { get; set; }
+        [Required(ErrorMessage ="Մուտքագրեք էլ հասցեն")]
+        [EmailAddress(ErrorMessage = "Մուտքագրեք վավեր էլ հասցե")]
         public string Email { get; set; }
         public string Adress { get; set; }
         public string SSN { get; set; }

@@ -10,11 +10,7 @@
 {
     <h3 style="text-align:center;color:forestgreen">Նշեք ընտրության օրը</h3>
     <div class="card-header" style="padding:10px">
-
-        <div class="form-group row">
-            <label for="NameParty" style="color:red;" class="col-sm-3">*հետագայում մտածում եմ կուսակցություն ֆիկսված լինի USER-ից </label>
-        </div>
-        <div class="form-group row">
+        @*<div class="form-group row">
             <label for="NameParty" class="col-sm-3">Կուսակցություն </label>
             <select class="form-control col-sm-8" @bind="NameParty">
                 @foreach (var item in ListNameParty)
@@ -22,7 +18,7 @@
                     <option value="@item.ToString().Replace("_", " ")">@item.ToString().Replace("_", " ")</option>
                 }
             </select>
-        </div>
+        </div>*@
         <div class="form-group row">
             <label for="dayElection" class="col-sm-3">Ընտրության օրը </label>
             <input type="date" class="form-control col-sm-8" @bind="dayElection" placeholder="dayElection">
@@ -104,12 +100,6 @@ else
                                     </NavLink>
                                 }
 
-
-
-
-                                @*<button class="btn btn-danger text-black-50" @onclick="@(() => DeletePecMember(pecMemeber))">
-                                        Հեռացնել
-                                    </button>*@
                             </td>
                         </tr>
                     }

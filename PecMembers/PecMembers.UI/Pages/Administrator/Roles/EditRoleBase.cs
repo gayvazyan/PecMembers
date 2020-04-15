@@ -27,7 +27,7 @@ namespace PecMembers.UI.Pages.Administrator.Roles
         //used to store state of screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
-        protected bool Show = false;
+        protected bool Deleted = false;
         protected override async Task OnInitializedAsync()
         {
             await FindeRole();
@@ -37,29 +37,25 @@ namespace PecMembers.UI.Pages.Administrator.Roles
         public async Task FindeRole()
         {
             var role = await roleManager.FindByIdAsync(Id);
-            if (role == null)
+            if (role != null)
             {
-                Message = Id + " ID-ով Role չգտնվեց";
-                StatusClass = "alert-danger";
-            }
-
-           editRoleViewModel = new EditRoleViewModel
-            {
-                Id = role.Id,
-                RoleName = role.Name,
-            };
-
-            // Retrieve all the Users 
-            // userManager.Users-ը փոխում ենք userManager.Users.ToList()
-            foreach (var user in userManager.Users.ToList())
-            {
-             
-                if (await userManager.IsInRoleAsync(user, role.Name))
+                editRoleViewModel = new EditRoleViewModel
                 {
-                    editRoleViewModel.Users.Add(user.UserName);
+                    Id = role.Id,
+                    RoleName = role.Name,
+                };
+
+                // Retrieve all the Users 
+                // userManager.Users-ը փոխում ենք userManager.Users.ToList()
+                foreach (var user in userManager.Users.ToList())
+                {
+
+                    if (await userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        editRoleViewModel.Users.Add(user.UserName);
+                    }
                 }
             }
-
         }
 
         public async Task UpdateRole()
@@ -71,6 +67,23 @@ namespace PecMembers.UI.Pages.Administrator.Roles
             var result = await roleManager.UpdateAsync(role);
             StatusClass = "alert-success";
             Message = "Role-ի անունը փոխվեց";
+        }
+
+        public async Task DeleteRole()
+        {
+            var role = await roleManager.FindByIdAsync(Id);
+            var result = await roleManager.DeleteAsync(role);
+            if (result.Succeeded)
+            {
+                Message = role.Name.ToString() + " Role-ը հաջողությամբ հեռացվեց";
+                StatusClass = "alert-success";
+                Deleted = true;
+            }
+            else
+            {
+                Message = result.Errors.ToString();
+                StatusClass = "alert-danger";
+            }
         }
     }
 }
