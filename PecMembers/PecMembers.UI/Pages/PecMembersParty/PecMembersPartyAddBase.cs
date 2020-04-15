@@ -70,6 +70,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
         protected override async Task OnInitializedAsync()
         {
+            GetEnumsValue();
             NameParty = await GetPartyName();
             if (Id != 0)
             {
@@ -81,17 +82,25 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 pecMemberViewModelList = InitializedPecMemberViewModel(pecMembersCurrentList);
                 filteredPecMemberViewModelList = pecMemberViewModelList;
             }
-            GetEnumsValue();
             await base.OnInitializedAsync();
         }
 
 
         private async Task<string> GetPartyName()
         {
+            string partyN = string.Empty;
             var authState = await authenticationStateTask;
             var user1 = authState.User;
             user = await userManager.GetUserAsync(user1);
-            string partyN = user.PName;
+            if (await userManager.IsInRoleAsync(user, "Admin"))
+            {
+                partyN = string.Empty;
+            }
+            else
+            {
+                partyN = user.PName;
+            }
+
             return partyN;
         }
 

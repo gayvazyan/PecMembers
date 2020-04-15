@@ -67,7 +67,16 @@ namespace PecMembers.UI.Pages.PecMembersParty
         {
             userName = await GetPartyName();
             InitializedPecMember();
-            pecMemberViewModelList = InitializedPecMemberViewModel().Where(p=>p.PartyView==userName).ToList();
+
+            if (userName!=string.Empty)
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView == userName).ToList();
+            }
+            else
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel().ToList();
+            }
+          
             filteredPecMemberViewModelList = pecMemberViewModelList;
             await base.OnInitializedAsync();
         }
@@ -79,10 +88,19 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
         private async Task<string> GetPartyName()
         {
+            string partyN = string.Empty;
             var authState = await authenticationStateTask;
             var user1 = authState.User;
             user = await userManager.GetUserAsync(user1);
-            string partyN = user.PName;
+            if (await userManager.IsInRoleAsync(user, "Admin"))
+            {
+                 partyN = string.Empty;
+            }
+            else
+            {
+                partyN = user.PName;
+            }
+           
             return partyN;
         }
 
