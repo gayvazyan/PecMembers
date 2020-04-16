@@ -22,11 +22,15 @@ using PecMembers.UI.Services.PecMemberElectResultRepo;
 using PecMembers.UI.Repositories.PartisInfoRepo;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
+using PecMembers.UI.Data;
+using Microsoft.JSInterop;
 
 namespace PecMembers.UI.Pages.PecMemberReports
 {
     public class PecMemberReportsBase : ComponentBase
     {
+        [Inject]
+        protected IJSRuntime jJSRuntime { get; set; }
         [Inject]
         protected IElectionsRepo electionsRepo { get; set; }
         [Inject]
@@ -34,9 +38,9 @@ namespace PecMembers.UI.Pages.PecMemberReports
         //[Inject]
         //protected IPecMemberRepository pecMemberRepository { get; set; }
         [Inject]
-        protected IPecMembersCurrentRepos pecMembersCurrentRepos  { get; set; }
+        protected IPecMembersCurrentRepos pecMembersCurrentRepos { get; set; }
 
-        
+
         [Inject]
         protected ICommunitisRepo communitisRepo { get; set; }
         [Inject]
@@ -70,7 +74,7 @@ namespace PecMembers.UI.Pages.PecMemberReports
         public List<TimViewModel> timViewModelList { get; set; } = new List<TimViewModel>();
         public List<PecMembersCurrent> pecMembersCurrentList { get; set; } = new List<PecMembersCurrent>();
 
-        
+
 
 
         //used to store state of screen
@@ -321,9 +325,10 @@ namespace PecMembers.UI.Pages.PecMemberReports
 
         public void DownloadExcel()
         {
+            byte[] fileContents;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            var FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "PecMember.xlsx");
-            using (ExcelPackage package = new ExcelPackage(new FileInfo(FilePath)))
+
+            using (var package = new ExcelPackage())
 
             {
                 //////// --------Start  Excel Style Part --------
@@ -366,26 +371,21 @@ namespace PecMembers.UI.Pages.PecMemberReports
                     i++;
                 }
 
+                fileContents = package.GetAsByteArray();
 
-
-                package.Save();
-                StatusClass = "alert-success";
-                Message = " Ֆայլը հաջողությամբ ներբեռնվեց ձեր համակարգչի Desktop-ին,որը ունի PecMember.xlsx անունը։";
             }
+            
+            DownloadExcel obj = new DownloadExcel();
+            obj.GenerateExcel(jJSRuntime, fileContents);
         }
 
         public void SendMail()
         {
             try
             {
-                //var SmtpServer = _configuration["EmailConfiguration:SmtpServer"];
-                //var SmtpPort = Convert.ToInt32(_configuration["EmailConfiguration:SmtpPort"]);
-                //var SmtpUsername = _configuration["EmailConfiguration:SmtpUsername"];
-                //var SmtpPassword = _configuration["EmailConfiguration:SmtpPassword"];
                 var toMail = "garegin1555@gmail.com";
                 var subject = " Հարգելի garegin1555@gmail.com";
                 var text = " Դուք  , մասնակցել էք Ընտրությունների անցկացման մասնագիտական դասընթացներ ստուգարքին համակարգչային եղանակով և ստացել եք  Խնդիրը հանձնել եք + -ին, և ստացել եք  միավոր: ասընթացների մասին լրացուցիչ ինֆորմացիա կարող եք ստանալ այցելելով https://www.elections.am կայք  Մասնագիտական դասընտացներ բաժին";
-
 
                 MailSender.Sender(toMail, subject, text);
 
@@ -426,7 +426,7 @@ namespace PecMembers.UI.Pages.PecMemberReports
 
                     };
                     pecMembersCurrentRepos.Insert(pecMember);
-                   
+
                 }
                 StatusClass = "alert-success";
                 Message = "Տվյալները գրանցվեց բազայում";

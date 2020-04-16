@@ -22,45 +22,76 @@
             </li>
         </AuthorizeView>
         <AuthorizeView Roles="Admin,Tec">
+
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="PecMembersTec/PecMembersTec" Match="NavLinkMatch.All">
-                    <span class="oi oi-person" aria-hidden="true"></span> Ավելացնել ՏԸՀ/ԸԸՀ/
+                <NavLink class="nav-link" @onclick="()=>expandSubNavTec = !expandSubNavTec" Match="NavLinkMatch.All">
+                    <span class="oi oi-people" aria-hidden="true"></span> ՏԸՀ ընտր․
                 </NavLink>
-            </li>
-        </AuthorizeView>
+
+                @if (expandSubNavTec)
+                {
+                <li class="nav-item px-3">
+                    <NavLink class="expand-menu" href="PecMembersTec/PecMembersTec">
+                        &nbsp;&nbsp;&nbsp;&nbsp;  <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="" href="PecMembersTec/PecMembersAdd">
+                        &nbsp;&nbsp;&nbsp;&nbsp; <span class="oi oi-pencil" aria-hidden="true"></span>Ավելացնել
+                    </NavLink>
+                </li>
+            }
+
+                </li>
+            </AuthorizeView>
+
+
         <AuthorizeView Roles="Admin,Party">
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="PecMembersParty/PecMembersParty" Match="NavLinkMatch.All">
-                    <span class="oi oi-people" aria-hidden="true"></span>Ավելացնել ՏԸՀ/կուս./
+                <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav" Match="NavLinkMatch.All">
+                    <span class="oi oi-people" aria-hidden="true"></span> ՏԸՀ կուսակց․
                 </NavLink>
-            </li>
-        </AuthorizeView>
-        @*<AuthorizeView Roles="Admin">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="PecMembersParty/PecMembersKyh" Match="NavLinkMatch.All">
-                    <span class="oi oi-task" aria-hidden="true"></span>ՏԸՀ անդամներ
-                </NavLink>
-            </li>
-        </AuthorizeView>*@
-        <AuthorizeView Roles="Admin">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="Administrator/Administrator" Match="NavLinkMatch.All">
-                    <span class="oi oi-cog" aria-hidden="true"></span>Կարգավորումներ
-                </NavLink>
-            </li>
-        </AuthorizeView>
-    </ul>
-</div>
+
+                @if (expandSubNav)
+                {
+                <li class="nav-item px-3">
+                    <NavLink class="expand-menu" href="PecMembersParty/PecMembersParty">
+                        &nbsp;&nbsp;&nbsp;&nbsp;  <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="" href="PecMembersParty/PecMembersPartyAdd">
+                        &nbsp;&nbsp;&nbsp;&nbsp; <span class="oi oi-pencil" aria-hidden="true"></span>Լրացնել
+                    </NavLink>
+                </li>
+            }
+
+                </li>
+            </AuthorizeView>
+
+
+            <AuthorizeView Roles="Admin">
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="Administrator/Administrator" Match="NavLinkMatch.All">
+                        <span class="oi oi-wrench" aria-hidden="true"></span>Կարգավորումներ
+                    </NavLink>
+                </li>
+            </AuthorizeView>
+        </ul>
+    </div>
 
 
 
-@code {
-    private bool collapseNavMenu = true;
+    @code {
+        private bool expandSubNav;
+        private bool expandSubNavTec;
+        
+        private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
+        private void ToggleNavMenu()
+        {
+            collapseNavMenu = !collapseNavMenu;
+        }
     }
-}

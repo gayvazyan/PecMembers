@@ -65,10 +65,12 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
             //var SmtpUsername = "noreplaycec@gmail.com";
             //var SmtpPassword = "Sa123456!";
             var toMail = Email;
-            var subject = " Հարգելի Email";
+            var subject = " Հարգելի քաղաքացի";
             var text = new StringBuilder();
             //text.AppendFormat("Հարգելի օգտատեր , {0}\n", user);
-            text.AppendFormat("Հարգելի օգտատեր" );
+            text.AppendLine("Ձեր Մուտքանուն է ՝"+user.UserName+"," );
+            text.Append(System.Environment.NewLine);
+            text.AppendLine(" գաղտնաբառն է՝ Sa123456! : Խնդրհում ենք հետագայում փոխել գաղտնաբառը։");
             text.AppendLine(" ՏԸՀ անդամներ համակարգում ձեր գրանցումը հաջողությամբ ավարտելու համար անցեք հետևյալ հղմամբ՝ ");
             text.AppendLine(EmailConfirmationUrl.ToString());
             text.AppendLine(", եթե հղումը ակտիվ չէ պարզապես պատճենեք և գրոծարկեք որևէ դիտարկչում։");
