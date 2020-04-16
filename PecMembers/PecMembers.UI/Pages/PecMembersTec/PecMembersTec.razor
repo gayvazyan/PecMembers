@@ -15,11 +15,6 @@
     <div class="alert @StatusClass">@Message</div>
     <table class="table table-responsive-sm table-striped">
         <thead>
-            <tr style="background-color:white">
-                <td colspan="10">
-                    <h7 style="color:red">*նախատեսում եմ որ յուրաքանչյուր ընտրատարածք տեսնի իր ցուցակը,իսկ ԿԸՀ-ն բոլորը(ինչպես հիմա տեսնում ենք)</h7>
-                </td>
-            </tr>
             <tr style="background-color:limegreen">
                 <GridColumn ColumnTitle="Ամսաթիվ" Value="@SerchColumType1" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Ամսաթիվ"))"></GridColumn>
                 <GridColumn ColumnTitle="ԸԸՀ" Value="@SerchColumType2" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "ԸԸՀ"))"></GridColumn>
@@ -43,36 +38,34 @@
             </tr>
         </thead>
         <tbody>
-
-            @foreach (var pecMemeber in filteredPecMemberViewModelList)
+            @if (filteredPecMemberViewModelList != null)
             {
-
+                @foreach (var pecMemeber in filteredPecMemberViewModelList)
                 {
-                    <tr style="background-color:blanchedalmond">
-                        <td style="border-color:black">@pecMemeber.ElectionDayView</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
-                        <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
 
-                        <td style="text-align:center;border-color:black">
+                    {
+                        <tr style="background-color:blanchedalmond">
+                            <td style="border-color:black">@pecMemeber.ElectionDayView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
 
-                            <NavLink href="@($"PecMembersTec/PecMembersEdit/{pecMemeber.Id}")" class="btn btn-primary table-btn">
-                                Խմբագրել
-                            </NavLink>
+                            <td style="text-align:center;border-color:black">
 
-
-                            @*<button class="btn btn-danger text-black-50" @onclick="@(() => DeletePecMember(pecMemeber))">
-                                    Հեռացնել
-                                </button>*@
-                        </td>
-                    </tr>
+                                <NavLink href="@($"PecMembersTec/PecMembersEdit/{pecMemeber.Id}")" class="btn btn-primary table-btn">
+                                    Խմբագրել
+                                </NavLink>
+                            </td>
+                        </tr>
+                    }
                 }
             }
+
         </tbody>
     </table>
 </div>

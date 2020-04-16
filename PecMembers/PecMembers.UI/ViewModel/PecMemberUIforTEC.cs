@@ -27,7 +27,6 @@ namespace PecMembers.UI.ViewModel
         [GaroSelectidValidation(ErrorMessage = "Ընտրեք համայնքը")]
         public Commun Commun { get; set; }
 
-        [GaroSelectidValidation(ErrorMessage = "Ընտրեք ընտրատարածքը")]
         public District DistrictId { get; set; }
         [Range(1, 3000, ErrorMessage = "Մուտքագրեք վավեր տեղամասի համար (>0)")]
         public int SubDistrictCode { get; set; }

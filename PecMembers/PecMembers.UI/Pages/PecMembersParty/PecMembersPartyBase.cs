@@ -74,7 +74,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
             }
             else
             {
-                pecMemberViewModelList = InitializedPecMemberViewModel().ToList();
+                pecMemberViewModelList = InitializedPecMemberViewModel();
             }
           
             filteredPecMemberViewModelList = pecMemberViewModelList;

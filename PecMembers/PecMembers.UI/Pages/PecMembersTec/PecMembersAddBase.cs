@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using PecMembers.UI.Data;
 using PecMembers.UI.Data.Enums;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
@@ -9,6 +12,7 @@ using PecMembers.UI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Party = PecMembers.UI.Data.Enums.Party;
 using Region = PecMembers.UI.Data.Enums.Region;
@@ -17,6 +21,17 @@ namespace PecMembers.UI.Pages.PecMembersTec
 {
     public class PecMembersAddBase : ComponentBase
     {
+        [Inject]
+        protected RoleManager<IdentityRole> roleManager { get; set; }
+        [Inject]
+        protected UserManager<ApplicationUser> userManager { get; set; }
+        public ApplicationUser user { get; set; }
+        [Parameter]
+        public string userName { get; set; } = string.Empty;
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
+
         [Inject]
         protected IApplicantRepasitory applicantRepasitory { get; set; }
         public Applicant applicant { get; set; }
@@ -55,10 +70,30 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         protected override async Task OnInitializedAsync()
         {
-            InitializedPecMembers();
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().Where(p => (p.PartyName == "անդամ")).ToList();
             GetEnumsValue();
+            InitializedPecMembers();
+            userName = await GetTecName();
+            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().Where(p => (p.PartyName == "անդամ")).ToList();
+           
             await base.OnInitializedAsync();
+        }
+
+
+        private async Task<string> GetTecName()
+        {
+            string partyN = string.Empty;
+            var authState = await authenticationStateTask;
+            var user1 = authState.User;
+            user = await userManager.GetUserAsync(user1);
+            if (await userManager.IsInRoleAsync(user, "Admin"))
+            {
+                partyN = string.Empty;
+            }
+            else
+            {
+                partyN = user.PName;
+            }
+            return partyN;
         }
 
         private void InitializedPecMembers()
@@ -145,9 +180,20 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         public async Task SavePecMember()
         {
-            string DistrictIdString = pecMember.DistrictId.ToString();
+            string DistrictIdString = string.Empty;
             int? DistrictIdInt;
-            DistrictIdInt = (pecMember.DistrictId != 0) ? (ListTEC.IndexOf(DistrictIdString) + 1) : 0;
+            if (userName == string.Empty)
+            {
+                 DistrictIdString = pecMember.DistrictId.ToString();
+         
+                DistrictIdInt = (pecMember.DistrictId != 0) ? (ListTEC.IndexOf(DistrictIdString) + 1) : 0;
+            }
+            else
+            {
+                 DistrictIdString = userName;
+                DistrictIdInt = ListTEC.IndexOf(DistrictIdString) + 1;
+            }
+          
 
             var result = GetAllPecMembers(pecMember.ElectionDay).Where(p => p.Certeficate == Certeficate).ToList();
 
@@ -169,7 +215,8 @@ namespace PecMembers.UI.Pages.PecMembersTec
                     pecMembersCurrent.Email = pecMember.Email;
                     pecMembersCurrent.WorkPosition = "անդամ";
                     pecMembersCurrent.WorkPositionId = 5;
-                    pecMembersCurrent.PartyName = "ՏԸՀ";
+                  
+                    pecMembersCurrent.PartyName = DistrictIdString;
                     pecMembersCurrent.SubDistrictCode = pecMember.SubDistrictCode;
                     pecMembersCurrent.DistrictId = DistrictIdInt;
                     pecMembersCurrent.Name = pecMember.Commun.ToString();

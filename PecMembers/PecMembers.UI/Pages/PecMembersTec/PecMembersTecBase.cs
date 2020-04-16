@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using PecMembers.UI.Data;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
 using PecMembers.UI.Repositories.GenericRepoForCEC.ApplicantRepo;
@@ -14,6 +17,18 @@ namespace PecMembers.UI.Pages.PecMembersTec
 {
     public class PecMembersTecBase:ComponentBase
     {
+
+        [Inject]
+        protected RoleManager<IdentityRole> roleManager { get; set; }
+        [Inject]
+        protected UserManager<ApplicationUser> userManager { get; set; }
+        public ApplicationUser user { get; set; }
+        [Parameter]
+        public string userName { get; set; } = string.Empty;
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
+
         [Inject]
         protected IPecMembersCurrentRepos pecMembersCurrentRepos { get; set; }
         public PecMembersCurrent pecMembersCurrent { get; set; }
@@ -45,8 +60,17 @@ namespace PecMembers.UI.Pages.PecMembersTec
         protected bool Show = false;
         protected override async Task OnInitializedAsync()
         {
+            userName = await GetPartyName();
             InitializedPecMember();
-            pecMemberViewModelList = InitializedPecMemberViewModel();
+            if (userName != string.Empty)
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView == userName).ToList();
+            }
+            else
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p=>p.PartyView.Contains("ԸԸՀ")).ToList();
+            }
+
             filteredPecMemberViewModelList = pecMemberViewModelList;
             await base.OnInitializedAsync();
         }
@@ -56,14 +80,22 @@ namespace PecMembers.UI.Pages.PecMembersTec
             pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
         }
 
-
-        //public void DeletePecMember(PecMemberSave pecMemeber)
-        //{
-        //    pecMemberRepository.Delete(pecMemeber);
-        //    StatusClass = "alert-success";
-        //    Message = "Հաջողությամբ հեռացվեց";
-        //}
-
+        private async Task<string> GetPartyName()
+        {
+            string partyN = string.Empty;
+            var authState = await authenticationStateTask;
+            var user1 = authState.User;
+            user = await userManager.GetUserAsync(user1);
+            if (await userManager.IsInRoleAsync(user, "Admin"))
+            {
+                partyN = string.Empty;
+            }
+            else
+            {
+                partyN = user.PName;
+            }
+            return partyN;
+        }
 
         public List<PecMemberViewModel> InitializedPecMemberViewModel()
         {
