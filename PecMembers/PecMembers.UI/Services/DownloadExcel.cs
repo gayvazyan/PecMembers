@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PecMembers.UI.Data
+namespace PecMembers.UI.Services
 {
     public class DownloadExcel
     {

@@ -2,14 +2,12 @@
 @inherits PecMembersTecBase
 @attribute [Authorize(Roles = "Admin,Tec")]
 
-<h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների ավելացում ընտրատարածքից</h3>
-<div class="card-header" style="padding:10px">
+<h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների ցանկ </h3>
+@*<div class="card-header" style="padding:10px">
     <NavLink href="@($"PecMembersTec/PecMembersAdd")" class="btn btn-success table-btn">
         Ավելացնել նորը
     </NavLink>
-</div>
-
-
+</div>*@
 
 <div class="grid card-body p-0">
     <div class="alert @StatusClass">@Message</div>

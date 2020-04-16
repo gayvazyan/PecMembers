@@ -2,11 +2,11 @@
 @inherits PecMembersPartyBase
 @attribute [Authorize(Roles = "Admin,Party")]
 
-<h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների լրացում կուսակցություններից</h3>
+<h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների ցանկ</h3>
 <div class="card-header" style="padding:10px">
-    <NavLink href="@($"PecMembersParty/PecMembersPartyAdd")" class="btn btn-success table-btn">
+    @*<NavLink href="@($"PecMembersParty/PecMembersPartyAdd")" class="btn btn-success table-btn">
         Լրացնել
-    </NavLink>
+    </NavLink>*@
     <button class="btn btn-primary text-black-50" @onclick="@(() => Clear())">
         <h7 style="color:white">Մաքրել որոնման դաշտերը</h7>
     </button>
