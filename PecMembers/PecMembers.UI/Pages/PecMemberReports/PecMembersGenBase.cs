@@ -14,11 +14,10 @@ namespace PecMembers.UI.Pages.PecMemberReports
 {
     public class PecMembersGenBase : ComponentBase
     {
-
         protected override async Task OnInitializedAsync()
         {
-          
-            await base.OnInitializedAsync();
+           
+              await base.OnInitializedAsync();
         }
         
     }
