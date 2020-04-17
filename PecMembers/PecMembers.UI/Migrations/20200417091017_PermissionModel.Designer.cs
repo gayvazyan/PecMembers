@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PecMembers.UI.Data;
 
 namespace PecMembers.UI.Migrations
 {
     [DbContext(typeof(PecMembersDbContext))]
-    partial class PecMembersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200417091017_PermissionModel")]
+    partial class PermissionModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,9 +306,6 @@ namespace PecMembers.UI.Migrations
                     b.Property<bool>("Admin")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PageArmenianName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PageName")
                         .HasColumnType("nvarchar(max)");
 
@@ -325,7 +324,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 1,
                             Admin = true,
-                            PageArmenianName = "Սկիզբ",
                             PageName = "Index",
                             Party = false,
                             Tec = false
@@ -334,7 +332,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 2,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ կազմ(գենեռացնել)",
                             PageName = "PecMembersGen",
                             Party = false,
                             Tec = false
@@ -343,7 +340,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 3,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ կազմ(պահպանել)",
                             PageName = "PecMemberReports",
                             Party = false,
                             Tec = false
@@ -352,7 +348,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 4,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ ընտր․ Դիտել",
                             PageName = "PecMembersTec",
                             Party = false,
                             Tec = false
@@ -361,7 +356,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 5,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ ընտր․ Ավելացնել",
                             PageName = "PecMembersAdd",
                             Party = false,
                             Tec = false
@@ -370,7 +364,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 6,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ ընտր․ Խմբագրել",
                             PageName = "PecMembersEdit",
                             Party = false,
                             Tec = false
@@ -379,7 +372,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 7,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ կուսակց․ Դիտել",
                             PageName = "PecMembersParty",
                             Party = false,
                             Tec = false
@@ -388,7 +380,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 8,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ կուսակց․ Լրացնել",
                             PageName = "PecMembersPartyAdd",
                             Party = false,
                             Tec = false
@@ -397,7 +388,6 @@ namespace PecMembers.UI.Migrations
                         {
                             Id = 9,
                             Admin = true,
-                            PageArmenianName = "ՏԸՀ կուսակց․ Խմբագրել",
                             PageName = "PecMembersPartyEdit",
                             Party = false,
                             Tec = false

@@ -3,15 +3,16 @@
 @attribute [Authorize(Roles = "Admin")]
 
     <div class="card-header" style="padding:10px">
-        @*<NavLink href="@($"Administrator/Roles/CreateRole")" class="btn btn-info table-btn">
-            CreateRole
-        </NavLink>*@
+       
         <NavLink href="@($"Administrator/Users/Users")" class="btn btn-primary table-btn">
             User-ներ
         </NavLink>
         <NavLink href="@($"Administrator/Roles/ListRoles")" class="btn btn-info table-btn">
             Role-ներ
         </NavLink>
+        @*<NavLink href="@($"Administrator/Permissions/Permissions")" class="btn btn-success table-btn">
+           Լիազորություններ
+        </NavLink>*@
         <br />
-        @*<a class="btn btn-lg btn-primary" href="Identity/Account/Register" style="color:white; margin-right:20px">Գրանցել նոր Օգտատեր</a>*@
+     
     </div>

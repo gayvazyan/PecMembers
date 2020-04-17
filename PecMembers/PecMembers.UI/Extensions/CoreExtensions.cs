@@ -19,6 +19,7 @@ using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
 using PecMembers.UI.Data;
 using Microsoft.AspNetCore.Identity;
 using PecMembers.UI.Repositories.GenericRepoForCEC.OldCerteficateRepo;
+using PecMembers.UI.Repositories.GenericRepoForPecMembers.PermissionsRepo;
 
 namespace PecMembers.UI.Extensions
 {
@@ -61,8 +62,9 @@ namespace PecMembers.UI.Extensions
 
 
             services.AddTransient<IPecMembersCurrentRepos, PecMembersCurrentRepos>();
-            
+            services.AddTransient<IPermissionsRepo, PermissionsRepo>();
 
+            
         }
     }
 }

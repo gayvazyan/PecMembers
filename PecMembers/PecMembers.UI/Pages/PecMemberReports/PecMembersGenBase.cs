@@ -1,4 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using PecMembers.UI.Data;
+using PecMembers.UI.Data.Permissions;
+using PecMembers.UI.Repositories.GenericRepoForPecMembers.PermissionsRepo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +14,19 @@ namespace PecMembers.UI.Pages.PecMemberReports
 {
     public class PecMembersGenBase : ComponentBase
     {
+
         protected override async Task OnInitializedAsync()
         {
+          
             await base.OnInitializedAsync();
         }
+        
     }
+
+
 }
+
+
+
+
 

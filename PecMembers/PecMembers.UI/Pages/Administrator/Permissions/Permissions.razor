@@ -1,0 +1,62 @@
+﻿@page "/Administrator/Permissions/Permissions"
+@inherits PermissionsBase
+
+
+<h2 style="text-align:center;color:forestgreen">Լիազորությունների խմբագրում</h2>
+<div class="alert @StatusClass">@Message</div>
+
+@if (!Show)
+{
+    <EditForm Model="@permissionList" OnValidSubmit="@SavePermission">
+
+        <div class="grid card-body p-0">
+            <table class="table table-responsive-sm table-striped">
+                <thead>
+                    <tr style="background-color:limegreen">
+                        <td style="text-align:center;border-color:white;color:white"></td>
+                        <td style="text-align:center;border-color:white;color:white">Կառավարիչ</td>
+                        <td style="text-align:center;border-color:white;color:white">Կուսակցություն</td>
+                        <td style="text-align:center;border-color:white;color:white">Ընտրատարածք</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (permissionList != null)
+                    {
+                        @foreach (var permission in permissionList)
+                        {
+                            {
+                                <tr style="background-color:blanchedalmond">
+                                    <td style="text-align:center;border-color:black">@permission.PageArmenianName</td>
+                                    <td style="text-align:center;border-color:black">
+                                        <InputCheckbox class="form-control col-sm-8" @bind-Value="@permission.Admin"></InputCheckbox>
+                                    </td>
+                                    <td style="text-align:center;border-color:black">
+                                        <InputCheckbox class="form-control col-sm-8" @bind-Value="@permission.Party"></InputCheckbox>
+                                    </td>
+                                    <td style="text-align:center;border-color:black">
+                                        <InputCheckbox class="form-control col-sm-8" @bind-Value="@permission.Tec"></InputCheckbox>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-success ">Հաստատել</button>
+            <NavLink href="@($"Administrator/Administrator")" class="btn btn-danger table-btn">
+                Չեղարկել
+            </NavLink>
+
+        </div>
+    </EditForm>
+}
+else
+{
+    <NavLink href="@($"Administrator/Administrator")" class="btn btn-info table-btn">
+        Վերադառնալ Կարգավորումներ
+    </NavLink>
+}
+
