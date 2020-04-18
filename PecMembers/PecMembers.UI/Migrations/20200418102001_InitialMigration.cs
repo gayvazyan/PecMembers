@@ -39,11 +39,44 @@ namespace PecMembers.UI.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    UName = table.Column<string>(nullable: true),
+                    PName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PecMembersCurrentDb",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DistrictId = table.Column<int>(nullable: true),
+                    SubDistrictCode = table.Column<int>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    SubDistrict = table.Column<string>(nullable: true),
+                    WorkPositionId = table.Column<int>(nullable: false),
+                    WorkPosition = table.Column<string>(nullable: true),
+                    ElectionDay = table.Column<DateTime>(nullable: false),
+                    CreatedDay = table.Column<DateTime>(nullable: false),
+                    PartyName = table.Column<string>(nullable: true),
+                    IsEmpty = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    MiddleName = table.Column<string>(nullable: true),
+                    Passport = table.Column<string>(nullable: true),
+                    Certeficate = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Adress = table.Column<string>(nullable: true),
+                    SSN = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PecMembersCurrentDb", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,6 +241,9 @@ namespace PecMembers.UI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "PecMembersCurrentDb");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
