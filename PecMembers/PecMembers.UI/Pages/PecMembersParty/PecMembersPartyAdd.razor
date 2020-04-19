@@ -78,10 +78,13 @@ else
     <label style="width:auto">Կուսակցություն՝</label>
     <label style="width:auto;color:forestgreen">@NameParty&nbsp;&nbsp; </label>
     <br />
+    <label style="width:auto">Ընտրության տեսակը՝</label>
+    <label style="width:auto;color:forestgreen">@(ListTypeForCreate[currentElection.ElectionId - 1].ToString().Replace("_", " "))</label>
     <br />
     <label style="width:auto">Դուք իրավունք ունեք մուտքագրելու  </label>
     <label style="width:auto;color:forestgreen">@currentElection.StartInputTime.ToString("dd.MM.yyyy") ժամը 09։00-ից  մինչև @currentElection.EndInputTime.ToString("dd.MM.yyyy") ժամը 18։00։ </label>
-
+    <br />
+    <button class="btn btn-success" @onclick="DownloadExcel">Ներբեռնել</button>
 </div>
 
             <div class="grid card-body p-0">

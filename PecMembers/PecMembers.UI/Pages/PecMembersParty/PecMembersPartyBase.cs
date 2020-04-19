@@ -6,6 +6,7 @@ using MimeKit.Cryptography;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PecMembers.UI.Data;
+using PecMembers.UI.Data.Enums;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
 using PecMembers.UI.Repositories.GenericRepoForCEC.ApplicantRepo;
@@ -46,8 +47,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
         public PecMembersCurrent pecMembersCurrent { get; set; }
         public List<PecMembersCurrent> pecMembersCurrentList { get; set; } = new List<PecMembersCurrent>();
 
-
-
+        [Parameter]
+        public string TypeForCreate { get; set; } = string.Empty;
+        public List<string> ListTypeForCreate { get; set; }
         [Parameter]
         public string SerchColumType1 { get; set; } = string.Empty;
         [Parameter]
@@ -65,6 +67,8 @@ namespace PecMembers.UI.Pages.PecMembersParty
         public string SerchColumType8 { get; set; } = string.Empty;
         [Parameter]
         public string SerchColumType9 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType10 { get; set; } = string.Empty;
 
         //used to store state of screen
         protected string Message = string.Empty;
@@ -73,6 +77,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
       
         protected override async Task OnInitializedAsync()
         {
+            GetEnumsValue();
             userName = await GetPartyName();
             InitializedPecMember();
 
@@ -89,7 +94,16 @@ namespace PecMembers.UI.Pages.PecMembersParty
             await base.OnInitializedAsync();
         }
 
-      
+
+        public void GetEnumsValue()
+        {
+           
+            ListTypeForCreate = Enum.GetValues(typeof(ElectionTypeForCreate))
+               .Cast<ElectionTypeForCreate>()
+               .Select(v => v.ToString())
+               .ToList();
+        }
+
 
         private void InitializedPecMember()
         {
@@ -121,6 +135,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
             foreach (var item in pecMembersCurrentList)
             {
+               // string text = ListTypeForCreate.FindIndex()
+
+
                 PecMemberViewModel pecMemberViewModel = new PecMemberViewModel()
                 {
                     Id = item.Id,
@@ -133,6 +150,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
                     PhoneNumberView = item.PhoneNumber != null ? item.PhoneNumber : "",
                     PartyView = item.PartyName != null ? item.PartyName : "",
                     PositionView = item.WorkPosition != null ? item.WorkPosition : "",
+                    TypeView =ListTypeForCreate[item.ElectionId-1].ToString().Replace("_", " ")
                 };
                 pecMemberViewModelList.Add(pecMemberViewModel);
             }
@@ -174,6 +192,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 case "Պաշտոն":
                     SerchColumType9 = searchText;
                     break;
+                case "Տեսակը":
+                    SerchColumType10 = searchText;
+                    break;
                 default:
                     Console.WriteLine("Default case");
                     break;
@@ -187,7 +208,8 @@ namespace PecMembers.UI.Pages.PecMembersParty
                                                                         && (p.CerteficateView.Contains(SerchColumType6))
                                                                         && (p.PhoneNumberView.Contains(SerchColumType7))
                                                                         && (p.PartyView.Contains(SerchColumType8))
-                                                                        && (p.PositionView.Contains(SerchColumType9)))
+                                                                        && (p.PositionView.Contains(SerchColumType9))
+                                                                        && (p.TypeView.Contains(SerchColumType10)))
                                                                             .ToList();
         }
 
@@ -202,6 +224,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
             SerchColumType7 = string.Empty;
             SerchColumType8 = string.Empty;
             SerchColumType9 = string.Empty;
+            SerchColumType10 = string.Empty;
             filteredPecMemberViewModelList = pecMemberViewModelList;
         }
 

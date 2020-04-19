@@ -26,6 +26,10 @@ namespace PecMembers.UI.Pages.PecMembersTec
         public List<string> ListCommunity { get; set; }
         [Parameter]
         public List<string> ListTEC { get; set; }
+        [Parameter]
+        public List<string> ListTypeForCreate { get; set; }
+        [Parameter]
+        public string TypeForCreate { get; set; } = string.Empty;
 
         //used to store state of screen
         protected string Message = string.Empty;
@@ -55,6 +59,10 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 .Cast<District>()
                 .Select(v => v.ToString())
                 .ToList();
+            ListTypeForCreate = Enum.GetValues(typeof(ElectionTypeForCreate))
+            .Cast<ElectionTypeForCreate>()
+            .Select(v => v.ToString())
+            .ToList();
         }
     
         public async Task UpdatePecMember()
@@ -65,6 +73,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 {
                     /// int? DistrictIdInt = ListTEC.IndexOf(DistrictIdString) + 1;
                     pecMemberCurrent.DistrictId = ListTEC.IndexOf(DistrictIdString) + 1;
+                    pecMemberCurrent.ElectionId = ListTypeForCreate.IndexOf(TypeForCreate) + 1;
                     await pecMembersCurrentRepos.UpdateAsync(pecMemberCurrent);
                     Show = true;
                     StatusClass = "alert-success";

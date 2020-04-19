@@ -29,6 +29,7 @@
                 <GridColumn ColumnTitle="Հեռախոս" Value="@SerchColumType7" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Հեռախոս"))"></GridColumn>
                 <GridColumn ColumnTitle="Կուսակ․" Value="@SerchColumType8" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Կուսակ․"))"></GridColumn>
                 <GridColumn ColumnTitle="Պաշտոն" Value="@SerchColumType9" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Պաշտոն"))"></GridColumn>
+                <GridColumn ColumnTitle="Տեսակը" Value="@SerchColumType10" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Տեսակը"))"></GridColumn>
 
             </tr>
         </thead>
@@ -50,6 +51,7 @@
                             <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
                             <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
                             <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.TypeView</td>
                         </tr>
                     }
                 }

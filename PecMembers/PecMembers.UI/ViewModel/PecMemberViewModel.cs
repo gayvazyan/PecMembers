@@ -18,6 +18,7 @@ namespace PecMembers.UI.ViewModel
         public string CerteficateView { get; set; }
         public string PhoneNumberView { get; set; }
         public string PositionView { get; set; }
+        public string TypeView { get; set; }
         public bool IsEmpty { get; set; }
 
     }
