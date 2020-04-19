@@ -3,12 +3,13 @@
 @attribute [Authorize(Roles = "Admin,Tec")]
 
 <h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների ցանկ </h3>
-@*<div class="card-header" style="padding:10px">
-        <NavLink href="@($"PecMembersTec/PecMembersAdd")" class="btn btn-success table-btn">
-            Ավելացնել նորը
-        </NavLink>
-    </div>*@
-<button class="btn btn-success" @onclick="DownloadExcel">Ներբեռնել</button>
+<div class="card-header" style="padding:10px">
+    @*<NavLink href="@($"PecMembersTec/PecMembersAdd")" class="btn btn-success table-btn">
+        Ավելացնել նորը
+    </NavLink>*@
+    <button class="btn btn-success" @onclick="DownloadExcel">Ներբեռնել</button>
+</div>
+
 
 <div class="grid card-body p-0">
     <div class="alert @StatusClass">@Message</div>

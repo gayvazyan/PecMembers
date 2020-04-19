@@ -24,6 +24,7 @@ using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
 using PecMembers.UI.Data;
 using Microsoft.JSInterop;
+using PecMembers.UI.Repositories.GenericRepoForPecMembers.CurrentElectionRepo;
 
 namespace PecMembers.UI.Pages.PecMemberReports
 {
@@ -69,12 +70,20 @@ namespace PecMembers.UI.Pages.PecMemberReports
 
         [Parameter]
         public List<string> ListNameParty { get; set; }
+        [Parameter]
+        public List<string> ListTypeForCreate { get; set; }
+
         public InputeForQueryViewModel forQuery { get; set; }
         public TimViewModel timViewModel { get; set; }
         public List<TimViewModel> timViewModelList { get; set; } = new List<TimViewModel>();
         public List<PecMembersCurrent> pecMembersCurrentList { get; set; } = new List<PecMembersCurrent>();
 
 
+
+        [Inject]
+        protected ICurrentElectionRepo currentElectionRepo { get; set; }
+     //   public CurrentElection currentElection { get; set; }
+        public List<CurrentElection> currentElectionList { get; set; }
 
 
         //used to store state of screen
@@ -95,6 +104,10 @@ namespace PecMembers.UI.Pages.PecMemberReports
         {
             ListNameParty = Enum.GetValues(typeof(PartisName))
                 .Cast<PartisName>()
+                .Select(v => v.ToString())
+                .ToList();
+            ListTypeForCreate = Enum.GetValues(typeof(ElectionTypeForCreate))
+                .Cast<ElectionTypeForCreate>()
                 .Select(v => v.ToString())
                 .ToList();
 
@@ -292,7 +305,8 @@ namespace PecMembers.UI.Pages.PecMemberReports
 
         public void HandleValidSubmit()
         {
-            if (forQuery.isRep)
+            //stugum en hamapetakany
+            if (ListTypeForCreate.IndexOf(forQuery.TypeForCreate) + 1<5)
             {
                 timViewModelList = CreatPecHam(forQuery.NameParty, forQuery.dayElection);
             }
@@ -374,7 +388,7 @@ namespace PecMembers.UI.Pages.PecMemberReports
                 fileContents = package.GetAsByteArray();
 
             }
-            
+
             DownloadExcel obj = new DownloadExcel();
             obj.GenerateExcel(jJSRuntime, fileContents);
         }
@@ -404,8 +418,25 @@ namespace PecMembers.UI.Pages.PecMemberReports
         {
             try
             {
+                CurrentElection currentElection = new CurrentElection()
+                {
+                  ElectionId = ListTypeForCreate.IndexOf(forQuery.TypeForCreate)+1,
+                    ElectionDay = forQuery.dayElection,
+                    //IsExtra = forQuery.isExtra,
+                    //IsRep = forQuery.isRep,
+                    StartInputTime=forQuery.startInputTime,
+                    EndInputTime=forQuery.endInputTime
+                    
+
+                };
+                currentElectionRepo.Insert(currentElection);
+
                 foreach (var item in timViewModelList)
                 {
+                   
+
+                   
+
                     PecMembersCurrent pecMember = new PecMembersCurrent()
                     {
                         DistrictId = item.DistrictId,
@@ -414,6 +445,7 @@ namespace PecMembers.UI.Pages.PecMemberReports
                         SubDistrict = item.SubDistrict,
                         WorkPositionId = item.WorkPositionId,
                         WorkPosition = item.WorkPosition,
+                        ElectionId = ListTypeForCreate.IndexOf(forQuery.TypeForCreate)+1,
                         ElectionDay = forQuery.dayElection,
                         CreatedDay = DateTime.Now,
                         PartyName = forQuery.NameParty,
@@ -422,10 +454,16 @@ namespace PecMembers.UI.Pages.PecMemberReports
                         MiddleName = string.Empty,
                         Passport = string.Empty,
                         Certeficate = string.Empty,
-                        PhoneNumber = string.Empty
+                        PhoneNumber = string.Empty,
+                        //IsExtra=forQuery.isExtra,
+                        //IsRep= forQuery.isRep
+
+
 
                     };
                     pecMembersCurrentRepos.Insert(pecMember);
+
+
 
                 }
                 StatusClass = "alert-success";

@@ -49,6 +49,22 @@ namespace PecMembers.UI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CurrentElectionDb",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ElectionId = table.Column<int>(nullable: false),
+                    ElectionDay = table.Column<DateTime>(nullable: false),
+                    IsExtra = table.Column<bool>(nullable: false),
+                    IsRep = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurrentElectionDb", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PecMembersCurrentDb",
                 columns: table => new
                 {
@@ -61,9 +77,11 @@ namespace PecMembers.UI.Migrations
                     WorkPositionId = table.Column<int>(nullable: false),
                     WorkPosition = table.Column<string>(nullable: true),
                     ElectionDay = table.Column<DateTime>(nullable: false),
+                    IsExtra = table.Column<bool>(nullable: false),
                     CreatedDay = table.Column<DateTime>(nullable: false),
                     PartyName = table.Column<string>(nullable: true),
                     IsEmpty = table.Column<bool>(nullable: false),
+                    IsRep = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
@@ -72,7 +90,8 @@ namespace PecMembers.UI.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Adress = table.Column<string>(nullable: true),
-                    SSN = table.Column<string>(nullable: true)
+                    SSN = table.Column<string>(nullable: true),
+                    ElectionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -241,6 +260,9 @@ namespace PecMembers.UI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CurrentElectionDb");
 
             migrationBuilder.DropTable(
                 name: "PecMembersCurrentDb");

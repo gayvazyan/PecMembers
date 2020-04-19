@@ -82,6 +82,27 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Տեսակը</label>
+                            <div class="col-sm-8">
+                                <InputSelect style="width:170px" id="Comunity" class="form-control col-sm-8" @bind-Value="@TypeForCreate" placeholder="Comunity">
+                                    @foreach (var item in ListTypeForCreate)
+                                            {
+                                        <option value="@item">@item.ToString().Replace("_", " ")</option>
+                                            }
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
+                                </InputSelect>
+                                @*<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Comunity)" />*@
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Ընտրատարածք</label>
                             <div class="col-sm-8">
                                 @if (userName == string.Empty)
@@ -91,6 +112,8 @@
                                                     {
                                             <option value="@item">@item.ToString().Replace("_", " ")</option>
                                                     }
+                                        /**/
+                                        /**/
                                         /**/
                                         /**/
                                         /**/
@@ -120,6 +143,8 @@
                                             {
                                         <option value="@item">@item</option>
                                             }
+                                    /**/
+                                    /**/
                                     /**/
                                     /**/
                                     /**/

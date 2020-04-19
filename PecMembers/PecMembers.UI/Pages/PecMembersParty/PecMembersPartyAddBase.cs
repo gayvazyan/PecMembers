@@ -6,6 +6,7 @@ using PecMembers.UI.Data.Enums;
 using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
 using PecMembers.UI.Repositories.GenericRepoForCEC.ApplicantRepo;
+using PecMembers.UI.Repositories.GenericRepoForPecMembers.CurrentElectionRepo;
 using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
 using PecMembers.UI.ViewModel;
 using System;
@@ -21,10 +22,14 @@ namespace PecMembers.UI.Pages.PecMembersParty
     public class PecMembersPartyAddBase : ComponentBase
     {
         [Inject]
-        protected UserManager<ApplicationUser> userManager { get; set; }
-        public ApplicationUser user { get; set; }
+        protected UserManager<ApplicationUser> UserManager { get; set; }
+        public ApplicationUser User { get; set; }
         [Parameter]
         public string NameParty { get; set; } = string.Empty;
+        [Parameter]
+        public string TypeForCreate { get; set; } = string.Empty;
+        [Parameter]
+        public bool isExtra { get; set; } = false;
 
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
@@ -38,7 +43,11 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
         [Parameter]
         public List<string> ListNameParty { get; set; }
+        public List<string> ListTypeForCreate { get; set; }
+        
         public DateTime dayElection { get; set; } = DateTime.Now;
+        public DateTime startInputTime { get; set; }
+        public DateTime endInputTime { get; set; }
 
 
         [Parameter]
@@ -62,10 +71,17 @@ namespace PecMembers.UI.Pages.PecMembersParty
         public List<PecMemberViewModel> pecMemberViewModelList { get; set; }
         public List<PecMemberViewModel> filteredPecMemberViewModelList { get; set; }
 
+        [Inject]
+        protected ICurrentElectionRepo currentElectionRepo { get; set; }
+        public CurrentElection currentElection { get; set; }
+       
+
         //used to store state of screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
         protected bool Show = false;
+        //poxel false
+        protected bool InputValid = true;
 
 
         protected override async Task OnInitializedAsync()
@@ -86,19 +102,22 @@ namespace PecMembers.UI.Pages.PecMembersParty
         }
 
 
+
+
+
         private async Task<string> GetPartyName()
         {
             string partyN = string.Empty;
             var authState = await authenticationStateTask;
             var user1 = authState.User;
-            user = await userManager.GetUserAsync(user1);
-            if (await userManager.IsInRoleAsync(user, "Admin"))
+            User = await UserManager.GetUserAsync(user1);
+            if (await UserManager.IsInRoleAsync(User, "Admin"))
             {
                 partyN = string.Empty;
             }
             else
             {
-                partyN = user.PName;
+                partyN = User.PName;
             }
 
             return partyN;
@@ -108,9 +127,11 @@ namespace PecMembers.UI.Pages.PecMembersParty
         {
             Show = true;
             PecMembersCurrent pecMembersCurrent = pecMembersCurrentRepos.GetByID(Id);
+            currentElection = currentElectionRepo.GetAll().FirstOrDefault(p => (p.ElectionDay == pecMembersCurrent.ElectionDay) && (p.ElectionId == pecMembersCurrent.ElectionId));
+            int idEl = pecMembersCurrent.ElectionId;
             NameParty = pecMembersCurrent.PartyName;
             dayElection = pecMembersCurrent.ElectionDay;
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().Where(p => (p.PartyName == NameParty) && (p.ElectionDay == dayElection)).ToList();
+            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().Where(p => (p.PartyName == NameParty) && (p.ElectionId == idEl)).ToList();
 
             pecMemberViewModelList = InitializedPecMemberViewModel(pecMembersCurrentList);
             filteredPecMemberViewModelList = pecMemberViewModelList;
@@ -121,24 +142,50 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 .Cast<PartisName>()
                 .Select(v => v.ToString())
                 .ToList();
+            ListTypeForCreate = Enum.GetValues(typeof(ElectionTypeForCreate))
+               .Cast<ElectionTypeForCreate>()
+               .Select(v => v.ToString())
+               .ToList();
         }
 
         public void GetResult()
         {
+            int idEl = ListTypeForCreate.IndexOf(TypeForCreate) + 1;
             pecMembersCurrentList = pecMembersCurrentRepos.GetAll()
-                                                           .Where(p => (p.PartyName == NameParty) && (p.ElectionDay == dayElection))
+                                                           .Where(p => (p.PartyName == NameParty) && (p.ElectionId == idEl))
                                                            .ToList();
-            if (pecMembersCurrentList != null)
+            Show = true;
+            if (pecMembersCurrentList.Count != 0)
             {
                 filteredPecMemberViewModelList = InitializedPecMemberViewModel(pecMembersCurrentList);
-                Show = true;
+
+                PecMembersCurrent pecMembersCurrent = pecMembersCurrentList.First();
+                DateTime electionDay = pecMembersCurrent.ElectionDay;
+                DateTime dateTimeNow = DateTime.Now;
+
+                currentElection = currentElectionRepo.GetAll().FirstOrDefault(p => (p.ElectionDay == pecMembersCurrent.ElectionDay) && (p.ElectionId == pecMembersCurrent.ElectionId));
+
+                endInputTime = currentElection.EndInputTime.AddHours(18);
+                startInputTime = currentElection.StartInputTime.AddHours(9);
+
+
+                if (dateTimeNow >= startInputTime && dateTimeNow <= endInputTime)
+                {
+                    InputValid = true;
+                }
+
+            }
+
+            else
+            {
+                filteredPecMemberViewModelList = null;
             }
         }
 
         public List<PecMemberViewModel> InitializedPecMemberViewModel(List<PecMembersCurrent> List)
         {
 
-            CultureInfo culture = new CultureInfo("hy-AM");
+            //CultureInfo culture = new CultureInfo("hy-AM");
             List<PecMemberViewModel> pecMemberViewModelList = new List<PecMemberViewModel>();
 
             foreach (var item in List)

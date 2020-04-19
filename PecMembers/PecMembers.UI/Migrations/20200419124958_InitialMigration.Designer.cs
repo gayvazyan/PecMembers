@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PecMembers.UI.Data;
 
 namespace PecMembers.UI.Migrations
 {
     [DbContext(typeof(PecMembersDbContext))]
-    partial class PecMembersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200419124958_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,11 +240,11 @@ namespace PecMembers.UI.Migrations
                     b.Property<int>("ElectionId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndInputTime")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsExtra")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime>("StartInputTime")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsRep")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -281,6 +283,12 @@ namespace PecMembers.UI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsEmpty")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsExtra")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRep")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")

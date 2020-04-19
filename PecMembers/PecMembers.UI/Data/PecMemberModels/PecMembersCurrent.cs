@@ -29,6 +29,7 @@ namespace PecMembers.UI.Data.PecMemberModels
         public string Email { get; set; }
         public string Adress { get; set; }
         public string SSN { get; set; }
+        public int  ElectionId { get; set; }
 
     }
 }

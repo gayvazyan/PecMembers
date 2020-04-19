@@ -22,11 +22,19 @@
             </li>
         </AuthorizeView>
 
+        @*<AuthorizeView Roles="Admin,Tec">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="PecMembersTec/PecMembersTec" Match="NavLinkMatch.All">
+                    <span class="oi oi-person" aria-hidden="true"></span>  Ընտրատարածք
+                </NavLink>
+            </li>
+        </AuthorizeView>*@
+
         <AuthorizeView Roles="Admin,Tec">
 
             <li class="nav-item px-3">
                 <NavLink class="nav-link" @onclick="()=>expandSubNavTec = !expandSubNavTec" Match="NavLinkMatch.All">
-                    <span class="oi oi-people" aria-hidden="true"></span> ՏԸՀ ընտր․
+                    <span class="oi oi-person" aria-hidden="true"></span>  Ընտրատարածք
                 </NavLink>
             </li>
         </AuthorizeView>
@@ -49,13 +57,19 @@
         }
 
 
-
+        @*<AuthorizeView Roles="Admin,Party">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="PecMembersParty/PecMembersParty" Match="NavLinkMatch.All">
+                    <span class="oi oi-people" aria-hidden="true"></span>   Կուսակցություն
+                </NavLink>
+            </li>
+        </AuthorizeView>*@
 
 
         <AuthorizeView Roles="Admin,Party">
             <li class="nav-item px-3">
                 <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav" Match="NavLinkMatch.All">
-                    <span class="oi oi-people" aria-hidden="true"></span> ՏԸՀ կուսակց․
+                    <span class="oi oi-people" aria-hidden="true"></span> Կուսակցություն
                 </NavLink>
             </li>
         </AuthorizeView>

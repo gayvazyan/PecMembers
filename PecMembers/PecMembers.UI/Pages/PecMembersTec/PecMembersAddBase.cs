@@ -43,7 +43,8 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         [Parameter]
         public string Certeficate { get; set; } = string.Empty;
-
+        [Parameter]
+        public string TypeForCreate { get; set; } = string.Empty;
 
         [Parameter]
         public PecMemberUIforTEC pecMember { get; set; } = new PecMemberUIforTEC { FirstName = "", LastName = "", Certeficate = "", MiddleName = "", Passport = "" };
@@ -59,6 +60,8 @@ namespace PecMembers.UI.Pages.PecMembersTec
         public List<string> ListCommunity { get; set; }
         [Parameter]
         public List<string> ListTEC { get; set; }
+        [Parameter]
+        public List<string> ListTypeForCreate { get; set; } 
 
 
         //used to store state of screen
@@ -157,6 +160,10 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 .Cast<District>()
                 .Select(v => v.ToString())
                 .ToList();
+            ListTypeForCreate = Enum.GetValues(typeof(ElectionTypeForCreate))
+               .Cast<ElectionTypeForCreate>()
+               .Select(v => v.ToString())
+               .ToList();
         }
 
         public void PassportGet()
@@ -222,6 +229,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
                     pecMembersCurrent.Name = pecMember.Commun.ToString();
                     pecMembersCurrent.SubDistrict = DistrictIdInt.ToString() + "/" + pecMember.SubDistrictCode;
                     pecMembersCurrent.IsEmpty = true;
+                    pecMembersCurrent.ElectionId = ListTypeForCreate.IndexOf(TypeForCreate) + 1;
 
                     Certeficate = string.Empty;
 

@@ -33,12 +33,15 @@ else
                                 }
                         /**/
                         /**/
-                        /**/
-                        /**/
-                        /**/
-                        /**/
-                        /**/
-                        /**/
+                    </InputSelect>
+                </div>
+                <div class="form-group row">
+                    <label for="NameParty" class="col-sm-3">Տեսակը</label>
+                    <InputSelect class="form-control col-sm-8" @bind-Value="@forQuery.TypeForCreate">
+                        @foreach (var item in ListTypeForCreate)
+                                {
+                            <option value="@item">@item.ToString().Replace("_", " ")</option>
+                                }
                         /**/
                         /**/
 
@@ -48,12 +51,25 @@ else
                     <label for="dayElection" class="col-sm-3">Ընտրության օրը </label>
                     <InputDate id="dayElection" class="form-control col-sm-8" @bind-Value="@forQuery.dayElection" placeholder="dayElection"></InputDate>
                 </div>
-                <div class="form-group row">
+                @*<div class="form-group row">
                     <label for="isRep" class="col-sm-3"> Համապետական </label>
                     <InputCheckbox id="isRep" class="form-control col-sm-8" @bind-Value="@forQuery.isRep" placeholder="isRep"></InputCheckbox>
-                    @*<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Employee.LastName)" />*@
+                  
                 </div>
+                <br><div class="form-group row">
+                    <label for="isExtra" class="col-sm-3"> Արտահերթ </label>
+                    <InputCheckbox id="isExtra" class="form-control col-sm-8" @bind-Value="@forQuery.isExtra" placeholder="isExtra"></InputCheckbox>
+                
+                </div>*@
                 <br>
+                <div class="form-group row">
+                    <label for="dayElection" class="col-sm-3">ՏԸՀ անդամների մուտքագրման սկիզբ </label>
+                    <InputDate id="dayElection" class="form-control col-sm-8" @bind-Value="@forQuery.startInputTime" placeholder="dayElection"></InputDate>
+                </div>
+                <div class="form-group row">
+                    <label for="dayElection" class="col-sm-3">ՏԸՀ անդամների մուտքագրման ավարտ </label>
+                    <InputDate id="dayElection" class="form-control col-sm-8" @bind-Value="@forQuery.endInputTime" placeholder="dayElection"></InputDate>
+                </div>
                 <button type="submit" class="btn btn-primary edit-outline-btn">Հաստատել</button>
             </div>
 
@@ -71,17 +87,6 @@ else
             <label style="width:auto">Ընտրության օրը՝ &nbsp; </label>
             <label style="width:auto;color:forestgreen">@forQuery.dayElectionArm</label>
             <br />
-            <label style="width:auto">Ընտրության տեսակը՝ &nbsp; </label>
-            @if (!forQuery.isRep)
-            {
-                <label style="width:auto;color:forestgreen">Տեղական Ինքնակառավարման Մարմինների (ՏԻՄ)</label>
-            }
-            else
-            {
-                <label style="width:auto;color:forestgreen">Համապետական</label>
-            }
-
-            <br>
             <label style="width:auto">Ընդհանուր՝</label>
             <label style="width:auto;color:forestgreen">@timViewModelList.Count&nbsp; </label>
             <label style="width:auto">նախագահ՝</label>

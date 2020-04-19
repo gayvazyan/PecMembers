@@ -10,8 +10,8 @@ using PecMembers.UI.Data;
 namespace PecMembers.UI.Migrations
 {
     [DbContext(typeof(PecMembersDbContext))]
-    [Migration("20200418102001_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200419132819_Date")]
+    partial class Date
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -227,6 +227,36 @@ namespace PecMembers.UI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PecMembers.UI.Data.PecMemberModels.CurrentElection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ElectionDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ElectionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndInputTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsExtra")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRep")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartInputTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CurrentElectionDb");
+                });
+
             modelBuilder.Entity("PecMembers.UI.Data.PecMemberModels.PecMembersCurrent", b =>
                 {
                     b.Property<int>("Id")
@@ -249,6 +279,9 @@ namespace PecMembers.UI.Migrations
                     b.Property<DateTime>("ElectionDay")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ElectionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -256,6 +289,12 @@ namespace PecMembers.UI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsEmpty")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsExtra")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRep")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")

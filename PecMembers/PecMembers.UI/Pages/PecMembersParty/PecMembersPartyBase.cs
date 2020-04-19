@@ -70,6 +70,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
         protected bool Show = false;
+      
         protected override async Task OnInitializedAsync()
         {
             userName = await GetPartyName();
@@ -87,6 +88,8 @@ namespace PecMembers.UI.Pages.PecMembersParty
             filteredPecMemberViewModelList = pecMemberViewModelList;
             await base.OnInitializedAsync();
         }
+
+      
 
         private void InitializedPecMember()
         {
