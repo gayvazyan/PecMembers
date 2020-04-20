@@ -6,12 +6,12 @@
     <NavLink href="@($"PecMemberReports/PecMemberReports")" class="btn btn-info table-btn">
         Գենեռացնել նոր կազմ
     </NavLink>
-    <button class="btn btn-danger text-black-50" @onclick="@(() => Delete())">
+    @*<button class="btn btn-danger text-black-50" @onclick="@(() => Delete())">
         <h7 style="color:white">Մաքրել բազայի աղյուսակը</h7>
-    </button>
-    <button class="btn btn-primary text-black-50" @onclick="@(() => Clear())">
+    </button>*@
+    @*<button class="btn btn-primary text-black-50" @onclick="@(() => Clear())">
         <h7 style="color:white">Մաքրել որոնման դաշտերը</h7>
-    </button>
+    </button>*@
 </div>
 
 
@@ -31,7 +31,13 @@
                 <GridColumn ColumnTitle="Կուսակ․" Value="@SerchColumType8" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Կուսակ․"))"></GridColumn>
                 <GridColumn ColumnTitle="Պաշտոն" Value="@SerchColumType9" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Պաշտոն"))"></GridColumn>
                 <GridColumn ColumnTitle="Տեսակը" Value="@SerchColumType10" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Տեսակը"))"></GridColumn>
-
+                <td style="text-align:center;font:bold;color:white">
+                    <br />
+                    <label>Հրամաններ</label> <br />
+                    <button class="btn btn-primary text-black-50" @onclick="@(() => Clear())">
+                        <h7 style="color:white">Մաքրել</h7>
+                    </button>
+                </td>
             </tr>
         </thead>
         <tbody>
@@ -42,18 +48,25 @@
                 {
 
                     {
-                        <tr style="background-color:blanchedalmond">
-                            <td style="border-color:black">@pecMemeber.ElectionDayView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
-                            <td style="text-align:center;border-color:black">@pecMemeber.TypeView</td>
-                        </tr>
+            <tr style="background-color:blanchedalmond">
+                <td style="border-color:black">@pecMemeber.ElectionDayView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
+                <td style="text-align:center;border-color:black">@pecMemeber.TypeView</td>
+                <td style="text-align:center;border-color:white">
+
+                    <button class="btn btn-danger text-black-50" @onclick="@(() => DeletePecMember(pecMemeber))">
+                        <h7 style="color:white">Հեռացնել</h7>
+                    </button>
+
+                </td>
+            </tr>
                     }
                 }
             }

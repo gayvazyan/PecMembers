@@ -200,6 +200,25 @@ namespace PecMembers.UI.Pages.PecMemberReports
             }
         }
 
+        public async Task DeletePecMember(PecMemberViewModel pecMemeber)
+        {
+            var pecMembersDeleted = pecMembersCurrentRepos.GetAll().FirstOrDefault(p => p.Id == pecMemeber.Id);
+            try
+            {
+                    await pecMembersCurrentRepos.DeleteAsync(pecMembersDeleted);
+
+                StatusClass = "alert-success";
+                Message = "Տվյալները հաջողությամբ հեռացվեցին, թարմացրեք էջը ";
+            }
+            catch (Exception ex)
+            {
+
+                StatusClass = "alert-danger";
+                Message = ex.Message;
+            }
+        }
+
+
     }
 
 

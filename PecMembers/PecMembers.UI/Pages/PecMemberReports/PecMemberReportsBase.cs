@@ -73,7 +73,7 @@ namespace PecMembers.UI.Pages.PecMemberReports
         [Parameter]
         public List<string> ListTypeForCreate { get; set; }
 
-        public InputeForQueryViewModel forQuery { get; set; }
+        public InputeForQueryViewModel forQuery { get; set; }= new InputeForQueryViewModel();
         public TimViewModel timViewModel { get; set; }
         public List<TimViewModel> timViewModelList { get; set; } = new List<TimViewModel>();
         public List<PecMembersCurrent> pecMembersCurrentList { get; set; } = new List<PecMembersCurrent>();
@@ -95,7 +95,6 @@ namespace PecMembers.UI.Pages.PecMemberReports
         protected override async Task OnInitializedAsync()
         {
 
-            forQuery = new InputeForQueryViewModel();
             GetEnumsValue();
             await base.OnInitializedAsync();
         }
@@ -335,83 +334,6 @@ namespace PecMembers.UI.Pages.PecMemberReports
                 Empty = true;
             }
 
-        }
-
-        public void DownloadExcel()
-        {
-            byte[] fileContents;
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            using (var package = new ExcelPackage())
-
-            {
-                //////// --------Start  Excel Style Part --------
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
-
-                workSheet.Cells["A1:D1"].Merge = true;
-                workSheet.Cells[1, 1].Value = "Տեղամասային ընտրական հանձնաժողովների անդամների նշանակման հայտ";
-                workSheet.Cells[1, 1].Style.Font.Name = "GHEA Grapalat";
-                workSheet.Cells[1, 1].Style.Font.Size = 12;
-                workSheet.Cells[1, 1].Style.WrapText = true;
-                workSheet.Cells[1, 1].Style.Font.Bold = true;
-                workSheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                workSheet.Cells[1, 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-
-                workSheet.Cells["A2:D2"].Style.WrapText = true;
-                workSheet.Cells["A2:D2"].Style.Font.Size = 10;
-                workSheet.Cells["A2:D2"].Style.Font.Name = "GHEA Grapalat";
-                workSheet.Cells["A2:D2"].Style.Font.Bold = true;
-                workSheet.Cells["A2:D2"].AutoFilter = true;
-                workSheet.Cells["A2:D2"].AutoFitColumns();
-                workSheet.Cells["A2:E2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                workSheet.Cells["A2:E2"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                //////// --------End  Excel Style Part --------
-
-                workSheet.Cells[2, 1].Value = "Ընտրատարածք";
-                workSheet.Cells[2, 2].Value = "Տեղամաս";
-                workSheet.Cells[2, 3].Value = "Համայնք";
-                workSheet.Cells[2, 4].Value = "Պաշտոն";
-
-                int i = 1;
-                foreach (var item in timViewModelList)
-                {
-
-                    workSheet.Cells[i + 2, 1].Value = item.DistrictId;
-                    workSheet.Cells[i + 2, 2].Value = item.SubDistrictCode;
-                    workSheet.Cells[i + 2, 3].Value = item.Name;
-                    workSheet.Cells[i + 2, 4].Value = item.WorkPosition;
-
-                    i++;
-                }
-
-                fileContents = package.GetAsByteArray();
-
-            }
-
-            DownloadExcel obj = new DownloadExcel();
-            obj.GenerateExcel(jJSRuntime, fileContents);
-        }
-
-        public void SendMail()
-        {
-            try
-            {
-                var toMail = "garegin1555@gmail.com";
-                var subject = " Հարգելի garegin1555@gmail.com";
-                var text = " Դուք  , մասնակցել էք Ընտրությունների անցկացման մասնագիտական դասընթացներ ստուգարքին համակարգչային եղանակով և ստացել եք  Խնդիրը հանձնել եք + -ին, և ստացել եք  միավոր: ասընթացների մասին լրացուցիչ ինֆորմացիա կարող եք ստանալ այցելելով https://www.elections.am կայք  Մասնագիտական դասընտացներ բաժին";
-
-                MailSender.Sender(toMail, subject, text);
-
-                StatusClass = "alert-success";
-                Message = "Հաղորդագրությունը ուղարկվեց";
-            }
-            catch (Exception ex)
-            {
-
-                StatusClass = "alert-danger";
-                Message = ex.Message;
-            }
         }
 
         public void SaveToDb()
