@@ -22,13 +22,15 @@ namespace PecMembers.UI.ViewModel
         public string Adress { get; set; }
         public string SSN { get; set; }
         public DateTime ElectionDay { get; set; } = DateTime.Now;
-        
 
-        [GaroSelectidValidation(ErrorMessage = "Ընտրեք համայնքը")]
-        public Commun Commun { get; set; }
 
+        //[GaroSelectidValidation(ErrorMessage = "Ընտրեք համայնքը")]
+        //public Commun Commun { get; set; }
+        [Required(ErrorMessage = "Ընտրեք համայնքը")]
+        public string ComunityName { get; set; }
         public District DistrictId { get; set; }
-        [Range(1, 3000, ErrorMessage = "Մուտքագրեք վավեր տեղամասի համար (>0)")]
+        //[Range(1, 3000, ErrorMessage = "Մուտքագրեք վավեր տեղամասի համար (>0)")]
+        [Required(ErrorMessage = "Ընտրեք տեղամասը")]
         public int SubDistrictCode { get; set; }
     }
 }

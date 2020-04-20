@@ -46,6 +46,13 @@ namespace PecMembers.UI.Pages.PecMembersTec
         [Parameter]
         public string TypeForCreate { get; set; } = string.Empty;
 
+        //[Parameter]
+        //public string ComunityName { get; set; } = string.Empty;
+        [Parameter]
+        public int ComunityId { get; set; }
+        [Parameter]
+        public string Pec { get; set; }
+
         [Parameter]
         public PecMemberUIforTEC pecMember { get; set; } = new PecMemberUIforTEC { FirstName = "", LastName = "", Certeficate = "", MiddleName = "", Passport = "" };
         public List<PecMemberUIforTEC> pecmemberUIList = new List<PecMemberUIforTEC>();
@@ -57,11 +64,15 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
 
         [Parameter]
-        public List<string> ListCommunity { get; set; }
+        public List<string> ListCommunity { get; set; } = new List<string>();
         [Parameter]
-        public List<string> ListTEC { get; set; }
+        public List<string> ListTEC { get; set; } = new List<string>();
+
         [Parameter]
-        public List<string> ListTypeForCreate { get; set; } 
+        public List<string> ListPEC { get; set; } = new List<string>();
+        [Parameter]
+        public List<string> ListTypeForCreate { get; set; }
+
 
 
         //used to store state of screen
@@ -73,14 +84,41 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         protected override async Task OnInitializedAsync()
         {
+
             GetEnumsValue();
             InitializedPecMembers();
             userName = await GetTecName();
+            GetCommunityLst();
             pecMembersCurrentList = pecMembersCurrentRepos.GetAll().Where(p => (p.PartyName == "անդամ")).ToList();
-           
+
             await base.OnInitializedAsync();
         }
 
+        private void GetCommunityLst()
+        {
+
+            // ComunityId = ListTEC.IndexOf(userName) + 1;
+            ComunityId = ListTEC.IndexOf(userName) + 33;
+            var pecMembersList = pecMembersCurrentRepos.GetAll().Where(p => (p.DistrictId == ComunityId)).ToList();
+
+            var ListAllCommunity = new List<string>();
+            foreach (var item in pecMembersList)
+            {
+
+                ListAllCommunity.Add(item.Name);
+            }
+             ListCommunity = ListAllCommunity.Distinct().ToList();
+
+            var ListAllPEC = new List<string>();
+            foreach (var item in pecMembersList)
+            {
+                ListAllPEC.Add(item.SubDistrictCode.ToString());
+            }
+            ListPEC = ListAllPEC.Distinct().ToList();
+
+           
+
+        }
 
         private async Task<string> GetTecName()
         {
@@ -96,6 +134,8 @@ namespace PecMembers.UI.Pages.PecMembersTec
             {
                 partyN = user.PName;
             }
+
+
             return partyN;
         }
 
@@ -152,10 +192,10 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         public void GetEnumsValue()
         {
-            ListCommunity = Enum.GetValues(typeof(Commun))
-                .Cast<Commun>()
-                .Select(v => v.ToString())
-                .ToList();
+            //ListCommunity = Enum.GetValues(typeof(Commun))
+            //    .Cast<Commun>()
+            //    .Select(v => v.ToString())
+            //    .ToList();
             ListTEC = Enum.GetValues(typeof(District))
                 .Cast<District>()
                 .Select(v => v.ToString())
@@ -191,16 +231,16 @@ namespace PecMembers.UI.Pages.PecMembersTec
             int? DistrictIdInt;
             if (userName == string.Empty)
             {
-                 DistrictIdString = pecMember.DistrictId.ToString();
-         
+                DistrictIdString = pecMember.DistrictId.ToString();
+
                 DistrictIdInt = (pecMember.DistrictId != 0) ? (ListTEC.IndexOf(DistrictIdString) + 1) : 0;
             }
             else
             {
-                 DistrictIdString = userName;
+                DistrictIdString = userName;
                 DistrictIdInt = ListTEC.IndexOf(DistrictIdString) + 1;
             }
-          
+
 
             var result = GetAllPecMembers(pecMember.ElectionDay).Where(p => p.Certeficate == Certeficate).ToList();
 
@@ -222,12 +262,12 @@ namespace PecMembers.UI.Pages.PecMembersTec
                     pecMembersCurrent.Email = pecMember.Email;
                     pecMembersCurrent.WorkPosition = "անդամ";
                     pecMembersCurrent.WorkPositionId = 5;
-                  
+
                     pecMembersCurrent.PartyName = DistrictIdString;
-                    pecMembersCurrent.SubDistrictCode = pecMember.SubDistrictCode;
+                    pecMembersCurrent.SubDistrictCode = Convert.ToInt32(Pec);
                     pecMembersCurrent.DistrictId = DistrictIdInt;
-                    pecMembersCurrent.Name = pecMember.Commun.ToString();
-                    pecMembersCurrent.SubDistrict = DistrictIdInt.ToString() + "/" + pecMember.SubDistrictCode;
+                    pecMembersCurrent.Name = pecMember.ComunityName;
+                    pecMembersCurrent.SubDistrict = DistrictIdInt.ToString() + "/" + Convert.ToInt32(Pec);
                     pecMembersCurrent.IsEmpty = true;
                     pecMembersCurrent.ElectionId = ListTypeForCreate.IndexOf(TypeForCreate) + 1;
 
