@@ -13,5 +13,13 @@ namespace PecMembers.UI.Data
         // Add-Migration InitialMigration -Context PecMembers.UI.Data.PecMembersDbContext
 
         //   Update-Database -Context PecMembers.UI.Data.PecMembersDbContext
+
+
+
+
+       
+
+        ///PecMembersPartyAddBase ում փոխել  protected bool InputValid-ին true-ից false
+
     }
 }

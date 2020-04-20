@@ -18,7 +18,6 @@ C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcor
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\PecMembersParty\PecMembersPartyAdd.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\PecMembersParty\PecMembersPartyEdit.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\PecMembersTec\PecMembersAdd.razor.g.cs
-C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\PecMembersTec\PecMembersEdit.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\PecMembersTec\PecMembersTec.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Shared\GridColumn.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Shared\LoginDisplay.razor.g.cs
@@ -176,7 +175,6 @@ C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcor
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\PecMembersParty\PecMembersPartyAdd.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\PecMembersParty\PecMembersPartyEdit.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\PecMembersTec\PecMembersAdd.razor.g.cs
-C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\PecMembersTec\PecMembersEdit.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\PecMembersTec\PecMembersTec.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Shared\GridColumn.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Shared\LoginDisplay.razor.g.cs

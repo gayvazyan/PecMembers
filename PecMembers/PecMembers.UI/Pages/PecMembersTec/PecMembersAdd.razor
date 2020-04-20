@@ -84,7 +84,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Տեսակը</label>
                             <div class="col-sm-8">
-                                <InputSelect style="width:170px" id="Comunity" class="form-control col-sm-8" @bind-Value="@TypeForCreate" placeholder="Comunity">
+                                <InputSelect style="width:170px" id="Comunity" class="form-control col-sm-8" @bind-Value="@pecMember.TypeForCreate" placeholder="Comunity">
                                     @foreach (var item in ListTypeForCreate)
                                             {
                                         <option value="@item">@item.ToString().Replace("_", " ")</option>
@@ -106,7 +106,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Ընտրատարածք</label>
                             <div class="col-sm-8">
-                                @if (userName == string.Empty)
+                                @if (userName == "RoleAdmin")
                                 {
                                     <InputSelect style="width:170px" id="TEC" class="form-control col-sm-8" @bind-Value="@pecMember.DistrictId" placeholder="TEC">
                                         @foreach (var item in ListTEC)
@@ -140,7 +140,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Տեղամաս</label>
                             <div class="col-sm-8">
-                                <InputSelect style="width:170px" id="Comunity" class="form-control col-sm-8" @bind-Value="@Pec" placeholder="Comunity">
+                                <InputSelect style="width:170px" id="Comunity" class="form-control col-sm-8" @bind-Value="@pecMember.SubDistrictCode" placeholder="Comunity">
                                     @foreach (var item in ListPEC)
                                             {
                                         <option value="@item">@item</option>

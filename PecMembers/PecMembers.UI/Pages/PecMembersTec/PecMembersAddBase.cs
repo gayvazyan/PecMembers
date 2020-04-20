@@ -50,8 +50,8 @@ namespace PecMembers.UI.Pages.PecMembersTec
         //public string ComunityName { get; set; } = string.Empty;
         [Parameter]
         public int ComunityId { get; set; }
-        [Parameter]
-        public string Pec { get; set; }
+        //[Parameter]
+        //public int Pec { get; set; }
 
         [Parameter]
         public PecMemberUIforTEC pecMember { get; set; } = new PecMemberUIforTEC { FirstName = "", LastName = "", Certeficate = "", MiddleName = "", Passport = "" };
@@ -71,7 +71,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
         [Parameter]
         public List<string> ListPEC { get; set; } = new List<string>();
         [Parameter]
-        public List<string> ListTypeForCreate { get; set; }
+        public List<string> ListTypeForCreate { get; set; } = new List<string>();
 
 
 
@@ -97,26 +97,73 @@ namespace PecMembers.UI.Pages.PecMembersTec
         private void GetCommunityLst()
         {
 
-            // ComunityId = ListTEC.IndexOf(userName) + 1;
-            ComunityId = ListTEC.IndexOf(userName) + 33;
-            var pecMembersList = pecMembersCurrentRepos.GetAll().Where(p => (p.DistrictId == ComunityId)).ToList();
-
-            var ListAllCommunity = new List<string>();
-            foreach (var item in pecMembersList)
+            if (userName == "RoleAdmin")
             {
 
-                ListAllCommunity.Add(item.Name);
-            }
-             ListCommunity = ListAllCommunity.Distinct().ToList();
+                var pecMembersList = pecMembersCurrentRepos.GetAll().ToList();
+                var ListAllCommunity = new List<string>();
+                foreach (var item in pecMembersList)
+                {
 
-            var ListAllPEC = new List<string>();
-            foreach (var item in pecMembersList)
+                    ListAllCommunity.Add(item.Name);
+                }
+                var ListCommunity1 = ListAllCommunity.Distinct().ToList();
+                ListCommunity.Add("");
+                foreach (var item in ListCommunity1)
+                {
+                    ListCommunity.Add(item);
+                }
+
+                var ListAllPEC = new List<int?>();
+                foreach (var item in pecMembersList)
+                {
+                    ListAllPEC.Add(item.SubDistrictCode);
+                }
+               var  ListPecInt = ListAllPEC.Distinct()
+                                    .OrderBy(p => p)
+                                    .ToList();
+                ListPEC.Add("");
+                foreach (var item in ListPecInt)
+                {
+                    ListPEC.Add(item.ToString());
+                }
+            }
+            else
             {
-                ListAllPEC.Add(item.SubDistrictCode.ToString());
-            }
-            ListPEC = ListAllPEC.Distinct().ToList();
+                 ComunityId = ListTEC.IndexOf(userName);
+              
+                var pecMembersList = pecMembersCurrentRepos.GetAll().Where(p => (p.DistrictId == ComunityId)).ToList();
 
-           
+                var ListAllCommunity = new List<string>();
+                foreach (var item in pecMembersList)
+                {
+
+                    ListAllCommunity.Add(item.Name);
+                }
+
+                var ListCommunity1 = ListAllCommunity.Distinct().ToList();
+                ListCommunity.Add("");
+                foreach (var item in ListCommunity1)
+                {
+                    ListCommunity.Add(item);
+                }
+                
+                var ListAllPEC = new List<int?>();
+                foreach (var item in pecMembersList)
+                {
+                    ListAllPEC.Add(item.SubDistrictCode);
+                }
+
+               var ListPecInt = ListAllPEC.Distinct()
+                                    .OrderBy(p => p)
+                                    .ToList();
+                ListPEC.Add("");
+                foreach (var item in ListPecInt)
+                {
+                    ListPEC.Add(item.ToString());
+                }
+            }
+
 
         }
 
@@ -128,13 +175,12 @@ namespace PecMembers.UI.Pages.PecMembersTec
             user = await userManager.GetUserAsync(user1);
             if (await userManager.IsInRoleAsync(user, "Admin"))
             {
-                partyN = string.Empty;
+                partyN = "RoleAdmin";
             }
             else
             {
                 partyN = user.PName;
             }
-
 
             return partyN;
         }
@@ -188,22 +234,29 @@ namespace PecMembers.UI.Pages.PecMembersTec
             return allPecMembers;
         }
 
-
-
         public void GetEnumsValue()
         {
-            //ListCommunity = Enum.GetValues(typeof(Commun))
-            //    .Cast<Commun>()
-            //    .Select(v => v.ToString())
-            //    .ToList();
-            ListTEC = Enum.GetValues(typeof(District))
+           var ListTECWithOut = Enum.GetValues(typeof(District))
                 .Cast<District>()
                 .Select(v => v.ToString())
                 .ToList();
-            ListTypeForCreate = Enum.GetValues(typeof(ElectionTypeForCreate))
+
+            ListTEC.Add("");
+            foreach (var item in ListTECWithOut)
+            {
+                ListTEC.Add(item);
+            }
+
+          var  ListTypeForCreateWithOut = Enum.GetValues(typeof(ElectionTypeForCreate))
                .Cast<ElectionTypeForCreate>()
                .Select(v => v.ToString())
                .ToList();
+
+            ListTypeForCreate.Add("");
+            foreach (var item in ListTypeForCreateWithOut)
+            {
+                ListTypeForCreate.Add(item);
+            }
         }
 
         public void PassportGet()
@@ -229,16 +282,25 @@ namespace PecMembers.UI.Pages.PecMembersTec
         {
             string DistrictIdString = string.Empty;
             int? DistrictIdInt;
-            if (userName == string.Empty)
+            if (userName == "RoleAdmin")
             {
-                DistrictIdString = pecMember.DistrictId.ToString();
+                if (pecMember.DistrictId!=0)
+                {
+                    DistrictIdString = pecMember.DistrictId.ToString();
 
-                DistrictIdInt = (pecMember.DistrictId != 0) ? (ListTEC.IndexOf(DistrictIdString) + 1) : 0;
+                    DistrictIdInt = (pecMember.DistrictId != 0) ? (ListTEC.IndexOf(DistrictIdString)) : 0;
+                }
+                else
+                {
+                    DistrictIdString = "ԸԸՀ_1";
+                    DistrictIdInt = ListTEC.IndexOf("ԸԸՀ_1");
+                }
+                
             }
             else
             {
                 DistrictIdString = userName;
-                DistrictIdInt = ListTEC.IndexOf(DistrictIdString) + 1;
+                DistrictIdInt = ListTEC.IndexOf(DistrictIdString); 
             }
 
 
@@ -264,10 +326,10 @@ namespace PecMembers.UI.Pages.PecMembersTec
                     pecMembersCurrent.WorkPositionId = 5;
 
                     pecMembersCurrent.PartyName = DistrictIdString;
-                    pecMembersCurrent.SubDistrictCode = Convert.ToInt32(Pec);
+                    pecMembersCurrent.SubDistrictCode =Convert.ToInt32(pecMember.SubDistrictCode);
                     pecMembersCurrent.DistrictId = DistrictIdInt;
                     pecMembersCurrent.Name = pecMember.ComunityName;
-                    pecMembersCurrent.SubDistrict = DistrictIdInt.ToString() + "/" + Convert.ToInt32(Pec);
+                    pecMembersCurrent.SubDistrict = DistrictIdInt.ToString() + "/" + pecMember.SubDistrictCode;
                     pecMembersCurrent.IsEmpty = true;
                     pecMembersCurrent.ElectionId = ListTypeForCreate.IndexOf(TypeForCreate) + 1;
 

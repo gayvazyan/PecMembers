@@ -375,5 +375,23 @@ namespace PecMembers.UI.Pages.PecMembersTec
             DownloadExcel obj = new DownloadExcel();
             obj.GenerateExcel(jJSRuntime, fileContents);
         }
+
+        public async Task Delete(PecMemberViewModel pecMemeber)
+        {
+            var pecMembersDeleted = pecMembersCurrentRepos.GetAll().FirstOrDefault(p => p.Id == pecMemeber.Id);
+            try
+            {
+                await pecMembersCurrentRepos.DeleteAsync(pecMembersDeleted);
+
+                StatusClass = "alert-success";
+                Message = "Հաջողությամբ հեռացվեցին, թարմացրեք էջը ";
+            }
+            catch (Exception ex)
+            {
+
+                StatusClass = "alert-danger";
+                Message = ex.Message;
+            }
+        }
     }
 }
