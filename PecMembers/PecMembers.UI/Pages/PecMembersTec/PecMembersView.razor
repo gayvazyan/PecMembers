@@ -1,0 +1,56 @@
+﻿@page "/PecMembersTec/PecMembersView"
+@inherits PecMembersViewBase
+@attribute [Authorize(Roles = "Admin,Tec")]
+
+<h3 style="text-align:center;color:forestgreen">ՏԸՀ անդամների ցանկ </h3>
+<div class="card-header" style="padding:10px">
+    <button class="btn btn-success" @onclick="DownloadExcel">Ներբեռնել</button>
+    <button class="btn btn-primary text-black-50" @onclick="@(() => Clear())">
+        <h7 style="color:white">Մաքրել որոնման դաշտերը</h7>
+    </button>
+</div>
+
+
+<div class="grid card-body p-0">
+    <div class="alert @StatusClass">@Message</div>
+    <table class="table table-responsive-sm table-striped">
+        <thead>
+            <tr style="background-color:limegreen">
+                <GridColumn ColumnTitle="Ամսաթիվ" Value="@SerchColumType1" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Ամսաթիվ"))"></GridColumn>
+                <GridColumn ColumnTitle="ԸԸՀ" Value="@SerchColumType2" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "ԸԸՀ"))"></GridColumn>
+                <GridColumn ColumnTitle="ՏԸՀ" Value="@SerchColumType3" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "ՏԸՀ"))"></GridColumn>
+                <GridColumn ColumnTitle="Համայնք" Value="@SerchColumType4" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Համայնք"))"></GridColumn>
+                <GridColumn ColumnTitle="Անուն,Ազգանուն,Հայրանուն" Value="@SerchColumType5" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Անուն,Ազգանուն,Հայրանուն"))"></GridColumn>
+                <GridColumn ColumnTitle="Վկայական" Value="@SerchColumType6" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Վկայական"))"></GridColumn>
+                <GridColumn ColumnTitle="Հեռախոս" Value="@SerchColumType7" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Հեռախոս"))"></GridColumn>
+                <GridColumn ColumnTitle="Կուսակ․" Value="@SerchColumType8" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Կուսակ․"))"></GridColumn>
+                <GridColumn ColumnTitle="Պաշտոն" Value="@SerchColumType9" OnSearchTextChanged="@(e => OnPublisherSearchTextChanged(e, "Պաշտոն"))"></GridColumn>
+            </tr>
+        </thead>
+        <tbody>
+            @if (filteredPecMemberViewModelList != null)
+            {
+                @foreach (var pecMemeber in filteredPecMemberViewModelList)
+                {
+
+                    {
+                        <tr style="background-color:blanchedalmond">
+                            <td style="border-color:black">@pecMemeber.ElectionDayView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
+                        </tr>
+                    }
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+

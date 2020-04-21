@@ -21,7 +21,6 @@ namespace PecMembers.UI.ViewModel
         public string Email { get; set; }
         public string Adress { get; set; }
         public string SSN { get; set; }
-        public DateTime ElectionDay { get; set; } = DateTime.Now;
        
         [Required(ErrorMessage = "Ընտրեք համայնքը")]
         public string ComunityName { get; set; }
@@ -32,9 +31,5 @@ namespace PecMembers.UI.ViewModel
         [Required(ErrorMessage = "Ընտրեք տեղամասը")]
         public string SubDistrictCode { get; set; }
 
-        [Required(ErrorMessage = "Ընտրեք ընտրության տեսակը")]
-        public string TypeForCreate { get; set; }
-
-       
     }
 }

@@ -5,11 +5,7 @@ using Microsoft.JSInterop;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PecMembers.UI.Data;
-using PecMembers.UI.Data.Enums;
 using PecMembers.UI.Data.PecMemberModels;
-using PecMembers.UI.Model;
-using PecMembers.UI.Repositories.GenericRepoForCEC.ApplicantRepo;
-using PecMembers.UI.Repositories.GenericRepoForPecMembers.CurrentElectionRepo;
 using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
 using PecMembers.UI.Services;
 using PecMembers.UI.ViewModel;
@@ -18,44 +14,31 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Party = PecMembers.UI.Data.Enums.Party;
-using Region = PecMembers.UI.Data.Enums.Region;
 
-namespace PecMembers.UI.Pages.PecMembersParty
+namespace PecMembers.UI.Pages.PecMembersTec
 {
-    public class PecMembersPartyAddBase : ComponentBase
+    public class PecMembersViewBase:ComponentBase
     {
         [Inject]
         protected IJSRuntime jJSRuntime { get; set; }
+
         [Inject]
-        protected UserManager<ApplicationUser> UserManager { get; set; }
-        public ApplicationUser User { get; set; }
+        protected RoleManager<IdentityRole> roleManager { get; set; }
+        [Inject]
+        protected UserManager<ApplicationUser> userManager { get; set; }
+        public ApplicationUser user { get; set; }
         [Parameter]
-        public string NameParty { get; set; } = string.Empty;
-        [Parameter]
-        public string TypeForCreate { get; set; } = string.Empty;
-        [Parameter]
-        public bool isExtra { get; set; } = false;
+        public string userName { get; set; } = string.Empty;
 
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-        [Parameter]
-        public int Id { get; set; }
         [Inject]
         protected IPecMembersCurrentRepos pecMembersCurrentRepos { get; set; }
-
+        public PecMembersCurrent pecMembersCurrent { get; set; }
         public List<PecMembersCurrent> pecMembersCurrentList { get; set; } = new List<PecMembersCurrent>();
-
-        [Parameter]
-        public List<string> ListNameParty { get; set; }
-        public List<string> ListTypeForCreate { get; set; }
-
-      
-        public DateTime dayElection { get; set; } = DateTime.Now;
-        public DateTime startInputTime { get; set; }
-        public DateTime endInputTime { get; set; }
-
+        public List<PecMemberViewModel> pecMemberViewModelList { get; set; }
+        public List<PecMemberViewModel> filteredPecMemberViewModelList { get; set; }
 
         [Parameter]
         public string SerchColumType1 { get; set; } = string.Empty;
@@ -75,37 +58,30 @@ namespace PecMembers.UI.Pages.PecMembersParty
         [Parameter]
         public string SerchColumType9 { get; set; } = string.Empty;
 
-        public List<PecMemberViewModel> pecMemberViewModelList { get; set; }
-        public List<PecMemberViewModel> filteredPecMemberViewModelList { get; set; }
-
-        [Inject]
-        protected ICurrentElectionRepo currentElectionRepo { get; set; }
-        public CurrentElection currentElection { get; set; }
-       
-
         //used to store state of screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
         protected bool Show = false;
-        //poxel false
-        protected bool InputValid = true;
-
-
         protected override async Task OnInitializedAsync()
         {
-            GetEnumsValue();
-            NameParty = await GetPartyName();
-            if (Id != 0)
+            userName = await GetPartyName();
+            InitializedPecMember();
+            if (userName != "RoleAdmin")
             {
-                ReturnCondition();
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView == userName).ToList();
             }
             else
             {
-                pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
-                pecMemberViewModelList = InitializedPecMemberViewModel(pecMembersCurrentList);
-                filteredPecMemberViewModelList = pecMemberViewModelList;
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView.Contains("ԸԸՀ")).ToList();
             }
+
+            filteredPecMemberViewModelList = pecMemberViewModelList;
             await base.OnInitializedAsync();
+        }
+
+        private void InitializedPecMember()
+        {
+            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
         }
 
         private async Task<string> GetPartyName()
@@ -113,85 +89,24 @@ namespace PecMembers.UI.Pages.PecMembersParty
             string partyN = string.Empty;
             var authState = await authenticationStateTask;
             var user1 = authState.User;
-            User = await UserManager.GetUserAsync(user1);
-            if (await UserManager.IsInRoleAsync(User, "Admin"))
+            user = await userManager.GetUserAsync(user1);
+            if (await userManager.IsInRoleAsync(user, "Admin"))
             {
-                partyN = string.Empty;
+                partyN = "RoleAdmin";
             }
             else
             {
-                partyN = User.PName;
+                partyN = user.PName;
             }
-
             return partyN;
         }
 
-        public void ReturnCondition()
+        public List<PecMemberViewModel> InitializedPecMemberViewModel()
         {
-            Show = true;
-            PecMembersCurrent pecMembersCurrent = pecMembersCurrentRepos.GetByID(Id);
-            currentElection = currentElectionRepo.GetAll().FirstOrDefault(p => (p.ElectionDay == pecMembersCurrent.ElectionDay) && (p.ElectionId == pecMembersCurrent.ElectionId));
-            int idEl = pecMembersCurrent.ElectionId;
-            NameParty = pecMembersCurrent.PartyName;
-            dayElection = pecMembersCurrent.ElectionDay;
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().Where(p => (p.PartyName == NameParty) && (p.ElectionId == idEl)).ToList();
-
-            pecMemberViewModelList = InitializedPecMemberViewModel(pecMembersCurrentList);
-            filteredPecMemberViewModelList = pecMemberViewModelList;
-        }
-        public void GetEnumsValue()
-        {
-            ListNameParty = Enum.GetValues(typeof(PartisName))
-                .Cast<PartisName>()
-                .Select(v => v.ToString())
-                .ToList();
-            ListTypeForCreate = Enum.GetValues(typeof(ElectionTypeForCreate))
-               .Cast<ElectionTypeForCreate>()
-               .Select(v => v.ToString())
-               .ToList();
-        }
-
-        public void GetResult()
-        {
-            int idEl = ListTypeForCreate.IndexOf(TypeForCreate) + 1;
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll()
-                                                           .Where(p => (p.PartyName == NameParty) && (p.ElectionId == idEl))
-                                                           .ToList();
-            Show = true;
-            if (pecMembersCurrentList.Count != 0)
-            {
-                filteredPecMemberViewModelList = InitializedPecMemberViewModel(pecMembersCurrentList);
-
-                PecMembersCurrent pecMembersCurrent = pecMembersCurrentList.First();
-                DateTime electionDay = pecMembersCurrent.ElectionDay;
-                DateTime dateTimeNow = DateTime.Now;
-
-                currentElection = currentElectionRepo.GetAll().FirstOrDefault(p => (p.ElectionDay == pecMembersCurrent.ElectionDay) && (p.ElectionId == pecMembersCurrent.ElectionId));
-
-                endInputTime = currentElection.EndInputTime.AddHours(18);
-                startInputTime = currentElection.StartInputTime.AddHours(9);
-
-
-                if (dateTimeNow >= startInputTime && dateTimeNow <= endInputTime)
-                {
-                    InputValid = true;
-                }
-
-            }
-
-            else
-            {
-                filteredPecMemberViewModelList = null;
-            }
-        }
-
-        public List<PecMemberViewModel> InitializedPecMemberViewModel(List<PecMembersCurrent> List)
-        {
-
-            //CultureInfo culture = new CultureInfo("hy-AM");
+            CultureInfo culture = new CultureInfo("hy-AM");
             List<PecMemberViewModel> pecMemberViewModelList = new List<PecMemberViewModel>();
 
-            foreach (var item in List)
+            foreach (var item in pecMembersCurrentList)
             {
                 PecMemberViewModel pecMemberViewModel = new PecMemberViewModel()
                 {
@@ -205,8 +120,6 @@ namespace PecMembers.UI.Pages.PecMembersParty
                     PhoneNumberView = item.PhoneNumber != null ? item.PhoneNumber : "",
                     PartyView = item.PartyName != null ? item.PartyName : "",
                     PositionView = item.WorkPosition != null ? item.WorkPosition : "",
-                    IsEmpty = item.IsEmpty
-
                 };
                 pecMemberViewModelList.Add(pecMemberViewModel);
             }
@@ -279,6 +192,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
             filteredPecMemberViewModelList = pecMemberViewModelList;
         }
 
+
         public void DownloadExcel()
         {
             byte[] fileContents;
@@ -311,7 +225,7 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 workSheet.Cells[2, 1].Value = "ՀՀ ԿԵՆՏՐՈՆԱԿԱՆ ԸՆՏՐԱԿԱՆ ՀԱՆՁՆԱԺՈՂՈՎԻ ՆԱԽԱԳԱՀԻՆ";
                 workSheet.Cells[3, 1].Value = "ՀԱՅՏ";
                 //  workSheet.Cells[4, 1].Value = "(կուսակցության, կուսակցությունների դաշինքի անվանումը)";
-                workSheet.Cells[4, 1].Value = User.UName;
+                workSheet.Cells[4, 1].Value = user.UName;
                 workSheet.Cells[5, 1].Value = "տեղամասային ընտրական հանձնաժողովների անդամների նշանակման";
                 workSheet.Cells[6, 1].Value = "ՀՀ ընտրական օրենսգրքի 44-րդ հոդվածին համապատասխան __________________________________ ընտրություններին տեղամասային ընտրական հանձնաժողովների անդամներ են նշանակվել.";
                 workSheet.Cells[rowNumber, 1].Value = "Հայտում նշված քաղաքացիներն ունեն տեղամասային ընտրական հանձնաժողովում ընդգրկվելու իրավունք, նրանց վրա չեն տարածվում ՀՀ ընտրական օրենսգրքի 39-րդ հոդվածով ընտրական հանձնաժողովի անդամ նշանակվելու համար նախատեսված սահմանափակումները:";
@@ -458,6 +372,24 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
             DownloadExcel obj = new DownloadExcel();
             obj.GenerateExcel(jJSRuntime, fileContents);
+        }
+
+        public async Task Delete(PecMemberViewModel pecMemeber)
+        {
+            var pecMembersDeleted = pecMembersCurrentRepos.GetAll().FirstOrDefault(p => p.Id == pecMemeber.Id);
+            try
+            {
+                await pecMembersCurrentRepos.DeleteAsync(pecMembersDeleted);
+
+                StatusClass = "alert-success";
+                Message = "Հաջողությամբ հեռացվեցին, թարմացրեք էջը ";
+            }
+            catch (Exception ex)
+            {
+
+                StatusClass = "alert-danger";
+                Message = ex.Message;
+            }
         }
     }
 }

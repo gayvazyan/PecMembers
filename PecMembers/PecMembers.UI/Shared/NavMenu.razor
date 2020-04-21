@@ -40,13 +40,13 @@
         </AuthorizeView>
         @if (expandSubNavTec)
         {
-            <AuthorizeView Roles="Admin,Tec">
-                <li class="nav-item px-3">
-                    <NavLink class="expand-menu" href="PecMembersTec/PecMembersTec" Match="NavLinkMatch.All">
-                        &nbsp;&nbsp;&nbsp;&nbsp;  <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
-                    </NavLink>
-                </li>
-            </AuthorizeView>
+    <AuthorizeView Roles="Admin,Tec">
+        <li class="nav-item px-3">
+            <NavLink class="expand-menu" href=" PecMembersTec/PecMembersView" Match="NavLinkMatch.All">
+                &nbsp;&nbsp;&nbsp;&nbsp;  <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
+            </NavLink>
+        </li>
+    </AuthorizeView>
             <AuthorizeView Roles="Admin,BeforeDayInput">
                 <li class="nav-item px-3">
                     <NavLink class="" href="PecMembersTec/PecMembersAdd" Match="NavLinkMatch.All">

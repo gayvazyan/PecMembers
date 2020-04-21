@@ -7,10 +7,12 @@ using PecMembers.UI.Data.PecMemberModels;
 using PecMembers.UI.Model;
 using PecMembers.UI.Repositories.GenericRepoForCEC.ApplicantRepo;
 using PecMembers.UI.Repositories.GenericRepoForCEC.OldCerteficateRepo;
+using PecMembers.UI.Repositories.GenericRepoForPecMembers.CurrentElectionRepo;
 using PecMembers.UI.Repositories.GenericRepoForPecMembers.PecMembersCurrentRepo;
 using PecMembers.UI.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
@@ -46,12 +48,11 @@ namespace PecMembers.UI.Pages.PecMembersTec
         [Parameter]
         public string TypeForCreate { get; set; } = string.Empty;
 
-        //[Parameter]
-        //public string ComunityName { get; set; } = string.Empty;
+        
         [Parameter]
         public int ComunityId { get; set; }
-        //[Parameter]
-        //public int Pec { get; set; }
+        public string stringElectionId { get; set; } = "ընտրեք ընտրության տեսակը․․․";
+       
 
         [Parameter]
         public PecMemberUIforTEC pecMember { get; set; } = new PecMemberUIforTEC { FirstName = "", LastName = "", Certeficate = "", MiddleName = "", Passport = "" };
@@ -59,7 +60,6 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         [Inject]
         protected IPecMembersCurrentRepos pecMembersCurrentRepos { get; set; }
-        // public PecMembersCurrent pecMembersCurrent { get; set; }
         public List<PecMembersCurrent> pecMembersCurrentList { get; set; } = new List<PecMembersCurrent>();
 
 
@@ -74,12 +74,42 @@ namespace PecMembers.UI.Pages.PecMembersTec
         public List<string> ListTypeForCreate { get; set; } = new List<string>();
 
 
+        [Inject]
+        protected ICurrentElectionRepo currentElectionRepo { get; set; }
+        public CurrentElection currentElection { get; set; }
+        public DateTime dayElection { get; set; } = DateTime.Now;
+        public DateTime startInputTime { get; set; }
+        public DateTime endInputTime { get; set; }
+
+        public List<PecMemberViewModel> pecMemberViewModelList { get; set; }
+        public List<PecMemberViewModel> filteredPecMemberViewModelList { get; set; }
+
+        [Parameter]
+        public string SerchColumType1 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType2 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType3 { get; set; } = string.Empty;[Parameter]
+        public string SerchColumType4 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType5 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType6 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType7 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType8 { get; set; } = string.Empty;
+        [Parameter]
+        public string SerchColumType9 { get; set; } = string.Empty;
 
         //used to store state of screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
+        protected bool ShowChooseElectionDay = true;
         protected bool Show = false;
         protected bool ShowAdded = false;
+        //poxel false
+        protected bool InputValid = true;
 
 
         protected override async Task OnInitializedAsync()
@@ -87,20 +117,64 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
             GetEnumsValue();
             InitializedPecMembers();
+            //pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
             userName = await GetTecName();
-            GetCommunityLst();
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().Where(p => (p.PartyName == "անդամ")).ToList();
+           
+            //if (userName == "RoleAdmin")
+            //{
+            //    pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView.Contains("ԸԸՀ")).ToList();
+            //}
+            //else
+            //{
+            //    pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView.Contains(userName)).ToList();
+            //}
+
+            //filteredPecMemberViewModelList = pecMemberViewModelList;
+
+
 
             await base.OnInitializedAsync();
         }
 
-        private void GetCommunityLst()
+        public List<PecMemberViewModel> InitializedPecMemberViewModel()
         {
+            List<PecMemberViewModel> pecMemberViewModelList = new List<PecMemberViewModel>();
+            pecMembersCurrentList = pecMembersCurrentRepos.GetAll()
+                                                        .Where(p=>(p.ElectionDay==dayElection)
+                                                        &&(p.ElectionId== ListTypeForCreate.IndexOf(stringElectionId)))
+                                                        .ToList();
+            foreach (var item in pecMembersCurrentList)
+            {
+                PecMemberViewModel pecMemberViewModel = new PecMemberViewModel()
+                {
+                    Id = item.Id,
+                    ElectionDayView = item.ElectionDay.ToString("dd.MM.yyyy"),
+                    DistrictView = item.DistrictId.ToString() != null ? item.DistrictId.ToString() : "",
+                    SubDistrictCodeView = item.SubDistrictCode.ToString() != null ? item.SubDistrictCode.ToString() : "",
+                    CommunityView = item.Name != null ? item.Name : "",
+                    FullName = item.LastName + " " + item.FirstName + " " + item.MiddleName,
+                    CerteficateView = item.Certeficate != null ? item.Certeficate : "",
+                    PhoneNumberView = item.PhoneNumber != null ? item.PhoneNumber : "",
+                    PartyView = item.PartyName != null ? item.PartyName : "",
+                    PositionView = item.WorkPosition != null ? item.WorkPosition : "",
+                };
+                pecMemberViewModelList.Add(pecMemberViewModel);
+            }
+            return pecMemberViewModelList;
 
+        }
+
+        public void GetCommunityLst()
+        {
+            int idEl = ListTypeForCreate.IndexOf(stringElectionId);
+            List<PecMembersCurrent> pecMembersList;
             if (userName == "RoleAdmin")
             {
 
-                var pecMembersList = pecMembersCurrentRepos.GetAll().ToList();
+                pecMembersList = pecMembersCurrentRepos.GetAll()
+                    .Where(p => (p.ElectionDay == dayElection) && (p.ElectionId == idEl))
+                    .ToList();
+
                 var ListAllCommunity = new List<string>();
                 foreach (var item in pecMembersList)
                 {
@@ -119,9 +193,9 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 {
                     ListAllPEC.Add(item.SubDistrictCode);
                 }
-               var  ListPecInt = ListAllPEC.Distinct()
-                                    .OrderBy(p => p)
-                                    .ToList();
+                var ListPecInt = ListAllPEC.Distinct()
+                                     .OrderBy(p => p)
+                                     .ToList();
                 ListPEC.Add("");
                 foreach (var item in ListPecInt)
                 {
@@ -130,9 +204,11 @@ namespace PecMembers.UI.Pages.PecMembersTec
             }
             else
             {
-                 ComunityId = ListTEC.IndexOf(userName);
-              
-                var pecMembersList = pecMembersCurrentRepos.GetAll().Where(p => (p.DistrictId == ComunityId)).ToList();
+                ComunityId = ListTEC.IndexOf(userName);
+
+                pecMembersList = pecMembersCurrentRepos.GetAll()
+                   .Where(p => (p.DistrictId == ComunityId) && (p.ElectionDay == dayElection) && (p.ElectionId == idEl))
+                   .ToList();
 
                 var ListAllCommunity = new List<string>();
                 foreach (var item in pecMembersList)
@@ -147,16 +223,16 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 {
                     ListCommunity.Add(item);
                 }
-                
+
                 var ListAllPEC = new List<int?>();
                 foreach (var item in pecMembersList)
                 {
                     ListAllPEC.Add(item.SubDistrictCode);
                 }
 
-               var ListPecInt = ListAllPEC.Distinct()
-                                    .OrderBy(p => p)
-                                    .ToList();
+                var ListPecInt = ListAllPEC.Distinct()
+                                     .OrderBy(p => p)
+                                     .ToList();
                 ListPEC.Add("");
                 foreach (var item in ListPecInt)
                 {
@@ -164,7 +240,56 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 }
             }
 
+            if (stringElectionId== "ընտրեք ընտրության տեսակը․․․")
+            {
+                StatusClass = "alert-danger";
+                Message = " ընտրեք ընտրության տեսակը․․․ ";
+            }
 
+            else
+            {
+                if (pecMembersList.Count() == 0)
+                {
+                    StatusClass = "alert-danger";
+                    Message = dayElection.ToString("dd.MM.yyyy") + " ընտրության օրով " + stringElectionId.ToString().Replace("_", " ") + " ընտրություն չգտնվեց։";
+                }
+                else
+                {
+                    PecMembersCurrent pecMembersCurrent = pecMembersList.First();
+                    DateTime electionDay = pecMembersCurrent.ElectionDay;
+                    DateTime dateTimeNow = DateTime.Now;
+
+                    currentElection = currentElectionRepo.GetAll().FirstOrDefault(p => (p.ElectionDay == pecMembersCurrent.ElectionDay) && (p.ElectionId == pecMembersCurrent.ElectionId));
+
+                    endInputTime = currentElection.EndInputTime.AddHours(18);
+                    startInputTime = currentElection.StartInputTime.AddHours(9);
+
+
+                    if (dateTimeNow >= startInputTime && dateTimeNow <= endInputTime)
+                    {
+                        InputValid = true;
+                    }
+
+
+                    ShowChooseElectionDay = false;
+                    Message = string.Empty;
+                    StatusClass = string.Empty;
+
+
+                    if (userName == "RoleAdmin")
+                    {
+                        pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView.Contains("ԸԸՀ")).ToList();
+                    }
+                    else
+                    {
+                        pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView.Contains(userName)).ToList();
+                    }
+
+                    filteredPecMemberViewModelList = pecMemberViewModelList;
+
+
+                }
+            }
         }
 
         private async Task<string> GetTecName()
@@ -236,10 +361,10 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         public void GetEnumsValue()
         {
-           var ListTECWithOut = Enum.GetValues(typeof(District))
-                .Cast<District>()
-                .Select(v => v.ToString())
-                .ToList();
+            var ListTECWithOut = Enum.GetValues(typeof(District))
+                 .Cast<District>()
+                 .Select(v => v.ToString())
+                 .ToList();
 
             ListTEC.Add("");
             foreach (var item in ListTECWithOut)
@@ -247,10 +372,10 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 ListTEC.Add(item);
             }
 
-          var  ListTypeForCreateWithOut = Enum.GetValues(typeof(ElectionTypeForCreate))
-               .Cast<ElectionTypeForCreate>()
-               .Select(v => v.ToString())
-               .ToList();
+            var ListTypeForCreateWithOut = Enum.GetValues(typeof(ElectionTypeForCreate))
+                 .Cast<ElectionTypeForCreate>()
+                 .Select(v => v.ToString())
+                 .ToList();
 
             ListTypeForCreate.Add("");
             foreach (var item in ListTypeForCreateWithOut)
@@ -284,7 +409,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
             int? DistrictIdInt;
             if (userName == "RoleAdmin")
             {
-                if (pecMember.DistrictId!=0)
+                if (pecMember.DistrictId != 0)
                 {
                     DistrictIdString = pecMember.DistrictId.ToString();
 
@@ -295,16 +420,16 @@ namespace PecMembers.UI.Pages.PecMembersTec
                     DistrictIdString = "ԸԸՀ_1";
                     DistrictIdInt = ListTEC.IndexOf("ԸԸՀ_1");
                 }
-                
+
             }
             else
             {
                 DistrictIdString = userName;
-                DistrictIdInt = ListTEC.IndexOf(DistrictIdString); 
+                DistrictIdInt = ListTEC.IndexOf(DistrictIdString);
             }
 
 
-            var result = GetAllPecMembers(pecMember.ElectionDay).Where(p => p.Certeficate == Certeficate).ToList();
+            var result = GetAllPecMembers(dayElection).Where(p => p.Certeficate == Certeficate).ToList();
 
             if (result.Count == 0)
             {
@@ -312,7 +437,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 try
                 {
                     pecMembersCurrent.CreatedDay = DateTime.Now;
-                    pecMembersCurrent.ElectionDay = pecMember.ElectionDay;
+                    pecMembersCurrent.ElectionDay = dayElection;
                     pecMembersCurrent.Certeficate = pecMember.Certeficate;
                     pecMembersCurrent.FirstName = pecMember.FirstName;
                     pecMembersCurrent.LastName = pecMember.LastName;
@@ -326,12 +451,12 @@ namespace PecMembers.UI.Pages.PecMembersTec
                     pecMembersCurrent.WorkPositionId = 5;
 
                     pecMembersCurrent.PartyName = DistrictIdString;
-                    pecMembersCurrent.SubDistrictCode =Convert.ToInt32(pecMember.SubDistrictCode);
+                    pecMembersCurrent.SubDistrictCode = Convert.ToInt32(pecMember.SubDistrictCode);
                     pecMembersCurrent.DistrictId = DistrictIdInt;
                     pecMembersCurrent.Name = pecMember.ComunityName;
                     pecMembersCurrent.SubDistrict = DistrictIdInt.ToString() + "/" + pecMember.SubDistrictCode;
                     pecMembersCurrent.IsEmpty = true;
-                    pecMembersCurrent.ElectionId = ListTypeForCreate.IndexOf(TypeForCreate) + 1;
+                    pecMembersCurrent.ElectionId = ListTypeForCreate.IndexOf(stringElectionId);
 
                     Certeficate = string.Empty;
 
@@ -339,6 +464,7 @@ namespace PecMembers.UI.Pages.PecMembersTec
                     await pecMembersCurrentRepos.InsertAsync(pecMembersCurrent);
                     StatusClass = "alert-success";
                     Message = "Քաղաքացի " + pecMembersCurrent.FullName + " տվյալները հաջողությամբ գրանցվեց";
+                    Show = false;
                 }
                 catch (Exception ex)
                 {
@@ -355,6 +481,91 @@ namespace PecMembers.UI.Pages.PecMembersTec
             }
 
         }
+
+
+        public void OnPublisherSearchTextChanged(ChangeEventArgs changeEventArgs, string columnTitle)
+        {
+            string searchText = changeEventArgs.Value.ToString();
+            // filteredPecMemberViewModelList = pecMemberViewModelList.Where(p => p.PartyView.Contains(searchText)).ToList();
+
+            switch (columnTitle)
+            {
+                case "Ամսաթիվ":
+                    SerchColumType1 = searchText;
+                    break;
+                case "ԸԸՀ":
+                    SerchColumType2 = searchText;
+                    break;
+                case "ՏԸՀ":
+                    SerchColumType3 = searchText;
+                    break;
+                case "Համայնք":
+                    SerchColumType4 = searchText;
+                    break;
+                case "Անուն,Ազգանուն,Հայրանուն":
+                    SerchColumType5 = searchText;
+                    break;
+                case "Վկայական":
+                    SerchColumType6 = searchText;
+                    break;
+                case "Հեռախոս":
+                    SerchColumType7 = searchText;
+                    break;
+                case "Կուսակ․":
+                    SerchColumType8 = searchText;
+                    break;
+                case "Պաշտոն":
+                    SerchColumType9 = searchText;
+                    break;
+                default:
+                    Console.WriteLine("Default case");
+                    break;
+            }
+
+            filteredPecMemberViewModelList = pecMemberViewModelList.Where(p => (p.ElectionDayView.Contains(SerchColumType1))
+                                                                        && (p.DistrictView.Contains(SerchColumType2))
+                                                                        && (p.SubDistrictCodeView.Contains(SerchColumType3))
+                                                                        && (p.CommunityView.Contains(SerchColumType4))
+                                                                        && (p.FullName.Contains(SerchColumType5))
+                                                                        && (p.CerteficateView.Contains(SerchColumType6))
+                                                                        && (p.PhoneNumberView.Contains(SerchColumType7))
+                                                                        && (p.PartyView.Contains(SerchColumType8))
+                                                                        && (p.PositionView.Contains(SerchColumType9)))
+                                                                            .ToList();
+        }
+
+        public void Clear()
+        {
+            SerchColumType1 = string.Empty;
+            SerchColumType2 = string.Empty;
+            SerchColumType3 = string.Empty;
+            SerchColumType4 = string.Empty;
+            SerchColumType5 = string.Empty;
+            SerchColumType6 = string.Empty;
+            SerchColumType7 = string.Empty;
+            SerchColumType8 = string.Empty;
+            SerchColumType9 = string.Empty;
+            filteredPecMemberViewModelList = pecMemberViewModelList;
+        }
+
+        public async Task Delete(PecMemberViewModel pecMemeber)
+        {
+            var pecMembersDeleted = pecMembersCurrentRepos.GetAll().FirstOrDefault(p => p.Id == pecMemeber.Id);
+            try
+            {
+                await pecMembersCurrentRepos.DeleteAsync(pecMembersDeleted);
+
+                StatusClass = "alert-success";
+                Message = "Հաջողությամբ հեռացվեցին, թարմացրեք էջը ";
+            }
+            catch (Exception ex)
+            {
+
+                StatusClass = "alert-danger";
+                Message = ex.Message;
+            }
+        }
+
     }
 }
 

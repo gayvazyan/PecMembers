@@ -20,6 +20,7 @@ namespace PecMembers.UI.Data
        
 
         ///PecMembersPartyAddBase ում փոխել  protected bool InputValid-ին true-ից false
+        ///PecMembersAddBase ում փոխել  protected bool InputValid-ին true-ից false
 
     }
 }
