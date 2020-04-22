@@ -16,7 +16,6 @@ using System.Globalization;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
-using Party = PecMembers.UI.Data.Enums.Party;
 using Region = PecMembers.UI.Data.Enums.Region;
 
 namespace PecMembers.UI.Pages.PecMembersTec

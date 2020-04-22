@@ -36,8 +36,7 @@ namespace PecMembers.UI.Pages.PecMemberReports
         protected IElectionsRepo electionsRepo { get; set; }
         [Inject]
         protected IPecMemberElectResultRepo pecMemberElectResultRepo { get; set; }
-        //[Inject]
-        //protected IPecMemberRepository pecMemberRepository { get; set; }
+       
         [Inject]
         protected IPecMembersCurrentRepos pecMembersCurrentRepos { get; set; }
 
@@ -79,10 +78,8 @@ namespace PecMembers.UI.Pages.PecMemberReports
         public List<PecMembersCurrent> pecMembersCurrentList { get; set; } = new List<PecMembersCurrent>();
 
 
-
         [Inject]
         protected ICurrentElectionRepo currentElectionRepo { get; set; }
-     //   public CurrentElection currentElection { get; set; }
         public List<CurrentElection> currentElectionList { get; set; }
 
 
@@ -109,9 +106,8 @@ namespace PecMembers.UI.Pages.PecMemberReports
                 .Cast<ElectionTypeForCreate>()
                 .Select(v => v.ToString())
                 .ToList();
-
         }
-        private List<TimViewModel> CreatPecTim(string name, DateTime dateElectionDay)
+        private List<TimViewModel> CreatPecTim(string name, DateTime dateElectionDay, bool isExtraValue)
         {
 
             electionList = electionsRepo.GetAll().ToList();
@@ -124,13 +120,14 @@ namespace PecMembers.UI.Pages.PecMemberReports
 
 
             var ee = (from election in electionList
-                      where election.SrartDate == dateElectionDay
+                      where ((election.SrartDate == dateElectionDay)&&(election.IsExtra== isExtraValue))
                       select (election.CommunityCode, election.SrartDate, election.IsExtra))
                           .ToList();
 
 
             var resultTimChairman = (from PM in pecMemberElectResultList
                                      where PM.ElectionDate == dateElectionDay
+                                    // where ((PM.ElectionDate == dateElectionDay)&& (e.IsExtra==isExtraValue))
                                      join C in communityList on PM.CommunityCode equals C.CommunityCode
                                      join e in ee on PM.CommunityCode equals e.CommunityCode
                                      join e2 in ee on PM.ElectionDate equals e2.SrartDate
@@ -305,14 +302,16 @@ namespace PecMembers.UI.Pages.PecMemberReports
         public void HandleValidSubmit()
         {
             //stugum en hamapetakany
-            if (ListTypeForCreate.IndexOf(forQuery.TypeForCreate) + 1<5)
+            if (ListTypeForCreate.IndexOf(forQuery.TypeForCreate) + 1==1)
             {
                 timViewModelList = CreatPecHam(forQuery.NameParty, forQuery.dayElection);
             }
             else
             {
-
-                timViewModelList = CreatPecTim(forQuery.NameParty, forQuery.dayElection);
+                
+                //stugum enq TIM-y hertakan e te artahert 
+                bool isExtraValue = ListTypeForCreate.IndexOf(forQuery.TypeForCreate) + 1 == 2 ? false : true;
+                timViewModelList = CreatPecTim(forQuery.NameParty, forQuery.dayElection, isExtraValue);
             }
 
             Show = true;
