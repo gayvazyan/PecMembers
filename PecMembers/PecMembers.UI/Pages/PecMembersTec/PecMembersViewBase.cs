@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace PecMembers.UI.Pages.PecMembersTec
 {
-    public class PecMembersViewBase:ComponentBase
+    public class PecMembersViewBase : ComponentBase
     {
         [Inject]
         protected IJSRuntime jJSRuntime { get; set; }
@@ -58,6 +58,9 @@ namespace PecMembers.UI.Pages.PecMembersTec
         [Parameter]
         public string SerchColumType9 { get; set; } = string.Empty;
 
+        public DateTime StartShowDate { get; set; } = DateTime.Now.AddDays(-60);
+        public DateTime EndShowDate { get; set; } = DateTime.Now.AddDays(30);
+
         //used to store state of screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
@@ -81,7 +84,9 @@ namespace PecMembers.UI.Pages.PecMembersTec
 
         private void InitializedPecMember()
         {
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
+            pecMembersCurrentList = pecMembersCurrentRepos.GetAll()
+                   .Where(p => (p.ElectionDay >= StartShowDate) && (p.ElectionDay <= EndShowDate))
+                .ToList();
         }
 
         private async Task<string> GetPartyName()
@@ -390,6 +395,21 @@ namespace PecMembers.UI.Pages.PecMembersTec
                 StatusClass = "alert-danger";
                 Message = ex.Message;
             }
+        }
+
+        public void ShowResult()
+        {
+            InitializedPecMember();
+            if (userName != "RoleAdmin")
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView == userName).ToList();
+            }
+            else
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView.Contains("ԸԸՀ")).ToList();
+            }
+
+            filteredPecMemberViewModelList = pecMemberViewModelList;
         }
     }
 }

@@ -50,6 +50,10 @@ namespace PecMembers.UI.Pages.PecMemberReports
 
         [Parameter]
         public string TypeForCreate { get; set; } = string.Empty;
+
+
+        public DateTime StartShowDate { get; set; } = DateTime.Now.AddDays(-60);
+        public DateTime EndShowDate { get; set; } = DateTime.Now.AddDays(30);
         public List<string> ListTypeForCreate { get; set; }
         //used to store state of screen
         protected string Message = string.Empty;
@@ -68,7 +72,9 @@ namespace PecMembers.UI.Pages.PecMemberReports
 
         private void InitializedPecMember()
         {
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
+            pecMembersCurrentList = pecMembersCurrentRepos.GetAll()
+                .Where(p=>(p.ElectionDay>=StartShowDate)&&(p.ElectionDay<=EndShowDate))
+                                                .ToList();
         }
 
         public List<PecMemberViewModel> InitializedPecMemberViewModel()
@@ -218,6 +224,13 @@ namespace PecMembers.UI.Pages.PecMemberReports
             }
         }
 
+
+        public void ShowResult()
+        {
+            InitializedPecMember();
+            pecMemberViewModelList = InitializedPecMemberViewModel();
+            filteredPecMemberViewModelList = pecMemberViewModelList;
+        }
 
     }
 

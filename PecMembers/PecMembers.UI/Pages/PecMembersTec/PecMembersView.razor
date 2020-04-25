@@ -10,6 +10,19 @@
     </button>
 </div>
 
+<br />
+
+<div>
+    <div class="form-group row">
+        <label for="StartShowDate" class="col-sm-3">Ցուցադրված ամսաթվի սկիզբ</label>
+        <input type="date" id="StartShowDate" class="form-control col-sm-8" @bind="@StartShowDate" placeholder="StartShowDate">
+    </div>
+    <div class="form-group row">
+        <label for="EndShowDate" class="col-sm-3">Ցուցադրված ամսաթվի վերջ </label>
+        <input type="date" id="EndShowDate" class="form-control col-sm-8" @bind="@EndShowDate" placeholder="EndShowDate">
+    </div>
+    <button class="btn btn-primary" @onclick="@ShowResult"> Ցուցադրել ընտրված ամսաթվով</button>
+</div>
 
 <div class="grid card-body p-0">
     <div class="alert @StatusClass">@Message</div>

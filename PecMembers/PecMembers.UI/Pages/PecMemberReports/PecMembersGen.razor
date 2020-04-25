@@ -1,20 +1,34 @@
 ﻿@page "/PecMemberReports/PecMembersGen"
 @inherits PecMembersGenBase
 
+
+
 <h2 style="text-align:center;color:forestgreen"> ՏԸՀ անդամների բազայում արկա ամբողջ ցանկը </h2>
 <div class="card-header" style="padding:10px">
     <NavLink href="@($"PecMemberReports/PecMemberReports")" class="btn btn-info table-btn">
         Գենեռացնել նոր կազմ
     </NavLink>
     @*<button class="btn btn-danger text-black-50" @onclick="@(() => Delete())">
-        <h7 style="color:white">Մաքրել բազայի աղյուսակը</h7>
-    </button>*@
+            <h7 style="color:white">Մաքրել բազայի աղյուսակը</h7>
+        </button>*@
     @*<button class="btn btn-primary text-black-50" @onclick="@(() => Clear())">
-        <h7 style="color:white">Մաքրել որոնման դաշտերը</h7>
-    </button>*@
+            <h7 style="color:white">Մաքրել որոնման դաշտերը</h7>
+        </button>*@
 </div>
 
+<br />
 
+<div>
+    <div class="form-group row">
+        <label for="StartShowDate" class="col-sm-3">Ցուցադրված ամսաթվի սկիզբ</label>
+        <input type="date" id="StartShowDate" class="form-control col-sm-8" @bind="@StartShowDate" placeholder="StartShowDate">
+    </div>
+    <div class="form-group row">
+        <label for="EndShowDate" class="col-sm-3">Ցուցադրված ամսաթվի վերջ </label>
+        <input type="date" id="EndShowDate" class="form-control col-sm-8" @bind="@EndShowDate" placeholder="EndShowDate">
+    </div>
+    <button class="btn btn-primary" @onclick="@ShowResult"> Ցուցադրել ընտրված ամսաթվով</button>
+</div>
 
 <div class="grid card-body p-0">
     <div class="alert @StatusClass">@Message</div>
@@ -48,25 +62,25 @@
                 {
 
                     {
-            <tr style="background-color:blanchedalmond">
-                <td style="border-color:black">@pecMemeber.ElectionDayView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
-                <td style="text-align:center;border-color:black">@pecMemeber.TypeView</td>
-                <td style="text-align:center;border-color:white">
+                        <tr style="background-color:blanchedalmond">
+                            <td style="border-color:black">@pecMemeber.ElectionDayView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.DistrictView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.SubDistrictCodeView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.CommunityView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.FullName</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.CerteficateView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PhoneNumberView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PartyView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.PositionView</td>
+                            <td style="text-align:center;border-color:black">@pecMemeber.TypeView</td>
+                            <td style="text-align:center;border-color:white">
 
-                    <button class="btn btn-danger text-black-50" @onclick="@(() => DeletePecMember(pecMemeber))">
-                        <h7 style="color:white">Հեռացնել</h7>
-                    </button>
+                                <button class="btn btn-danger text-black-50" @onclick="@(() => DeletePecMember(pecMemeber))">
+                                    <h7 style="color:white">Հեռացնել</h7>
+                                </button>
 
-                </td>
-            </tr>
+                            </td>
+                        </tr>
                     }
                 }
             }

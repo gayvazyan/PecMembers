@@ -70,6 +70,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
         [Parameter]
         public string SerchColumType10 { get; set; } = string.Empty;
 
+        public DateTime StartShowDate { get; set; } = DateTime.Now.AddDays(-60);
+        public DateTime EndShowDate { get; set; } = DateTime.Now.AddDays(30);
+
         //used to store state of screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
@@ -107,7 +110,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
         private void InitializedPecMember()
         {
-            pecMembersCurrentList = pecMembersCurrentRepos.GetAll().ToList();
+            pecMembersCurrentList = pecMembersCurrentRepos.GetAll()
+                 .Where(p => (p.ElectionDay >= StartShowDate) && (p.ElectionDay <= EndShowDate))
+                .ToList();
         }
 
         private async Task<string> GetPartyName()
@@ -408,6 +413,22 @@ namespace PecMembers.UI.Pages.PecMembersParty
 
             DownloadExcel obj = new DownloadExcel();
             obj.GenerateExcel(jJSRuntime, fileContents);
+        }
+
+        public void ShowResult()
+        {
+            InitializedPecMember();
+
+            if (userName != string.Empty)
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel().Where(p => p.PartyView == userName).ToList();
+            }
+            else
+            {
+                pecMemberViewModelList = InitializedPecMemberViewModel();
+            }
+
+            filteredPecMemberViewModelList = pecMemberViewModelList;
         }
 
 
