@@ -64,9 +64,8 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
                 var text = new StringBuilder();
                 //text.AppendFormat("Հարգելի օգտատեր , {0}\n", user);
                 text.AppendFormat("Հարգելի օգտատեր");
-                text.AppendLine(" ՏԸՀ անդամներ համակարգում ձեր գաղտնաբառը փոխելու համար  անցեք հետևյալ հղմամբ՝ ");
-                text.AppendLine(callbackUrl.ToString());
-                text.AppendLine(", եթե հղումը ակտիվ չէ պարզապես պատճենեք և գրոծարկեք որևէ դիտարկչում։");
+               // text.AppendLine(callbackUrl.ToString());
+                text.AppendLine($"ՏԸՀ անդամներ համակարգում ձեր գաղտնաբառը փոխելու համար  անցեք հետևյալ ՝ <a href='{callbackUrl}'>հղմամբ</a>.");
                 text.AppendLine("Եթե Դուք չէք ցանկանում փոխել Ձեր գախտնաբառը կամ գրանցված չէք վերը նշված համակարգում, պարզապես անտեսեք այս հաղորդագրությունը");
                 text.AppendLine("Հարգանքներով Գարո");
                 var textForMail = text.ToString();

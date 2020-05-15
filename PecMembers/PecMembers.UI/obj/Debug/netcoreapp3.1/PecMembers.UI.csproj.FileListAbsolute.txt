@@ -241,3 +241,4 @@ C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcor
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\PecMembers.UI.genruntimeconfig.cache
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\PecMembersTec\PecMembersView.razor.g.cs
 C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\Razor\Pages\PecMembersTec\PecMembersView.razor.g.cs
+C:\Users\gareg\source\repos\PecMembers\PecMembers\PecMembers.UI\obj\Debug\netcoreapp3.1\PecMembers.UI.csprojAssemblyReference.cache

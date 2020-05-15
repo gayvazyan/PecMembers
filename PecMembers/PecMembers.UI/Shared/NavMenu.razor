@@ -29,70 +29,59 @@
                 </NavLink>
             </li>
         </AuthorizeView>*@
-
-        <AuthorizeView Roles="Admin,Tec">
-
-            <li class="nav-item px-3">
+        <li class="nav-item px-3">
+            <AuthorizeView Roles="Admin,Tec">
                 <NavLink class="nav-link" @onclick="()=>expandSubNavTec = !expandSubNavTec" Match="NavLinkMatch.All">
                     <span class="oi oi-person" aria-hidden="true"></span>  Ընտրատարածք
                 </NavLink>
-            </li>
-        </AuthorizeView>
-        @if (expandSubNavTec)
-        {
-    <AuthorizeView Roles="Admin,Tec">
-        <li class="nav-item px-3">
-            <NavLink class="expand-menu" href=" PecMembersTec/PecMembersView" Match="NavLinkMatch.All">
-                &nbsp;&nbsp;&nbsp;&nbsp;  <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
-            </NavLink>
-        </li>
-    </AuthorizeView>
-            <AuthorizeView Roles="Admin,BeforeDayInput">
-                <li class="nav-item px-3">
-                    <NavLink class="" href="PecMembersTec/PecMembersAdd" Match="NavLinkMatch.All">
-                        &nbsp;&nbsp;&nbsp;&nbsp; <span class="oi oi-pencil" aria-hidden="true"></span>Ավելացնել
-                    </NavLink>
-                </li>
             </AuthorizeView>
-        }
+            @if (expandSubNavTec)
+            {
+                <ul class="nav flex-column">
+                    <AuthorizeView Roles="Admin,Tec">
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href=" PecMembersTec/PecMembersView" Match="NavLinkMatch.All">
+                                &nbsp;&nbsp;&nbsp;&nbsp;  <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
+                            </NavLink>
+                        </li>
+                    </AuthorizeView>
+                    <AuthorizeView Roles="Admin,BeforeDayInput">
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="PecMembersTec/PecMembersAdd" Match="NavLinkMatch.All">
+                                &nbsp;&nbsp;&nbsp;&nbsp; <span class="oi oi-pencil" aria-hidden="true"></span>Ավելացնել
+                            </NavLink>
+                        </li>
+                    </AuthorizeView>
+                </ul>
+            }
+        </li>
+        <li class="nav-item px-3">
+            <AuthorizeView Roles="Admin,Party">
 
-
-        @*<AuthorizeView Roles="Admin,Party">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="PecMembersParty/PecMembersParty" Match="NavLinkMatch.All">
-                    <span class="oi oi-people" aria-hidden="true"></span>   Կուսակցություն
-                </NavLink>
-            </li>
-        </AuthorizeView>*@
-
-
-        <AuthorizeView Roles="Admin,Party">
-            <li class="nav-item px-3">
                 <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav" Match="NavLinkMatch.All">
                     <span class="oi oi-people" aria-hidden="true"></span> Կուսակցություն
                 </NavLink>
-            </li>
-        </AuthorizeView>
-        @if (expandSubNav)
-        {
-            <AuthorizeView Roles="Admin,Party">
-                <li class="nav-item px-3">
-                    <NavLink class="expand-menu" href="PecMembersParty/PecMembersParty" Match="NavLinkMatch.All">
-                        &nbsp;&nbsp;&nbsp;&nbsp;  <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
-                    </NavLink>
-                </li>
             </AuthorizeView>
-            <AuthorizeView Roles="Admin,BeforeDayInput">
-                <li class="nav-item px-3">
-                    <NavLink class="" href="PecMembersParty/PecMembersPartyAdd" Match="NavLinkMatch.All">
-                        &nbsp;&nbsp;&nbsp;&nbsp; <span class="oi oi-pencil" aria-hidden="true"></span>Լրացնել
-                    </NavLink>
-                </li>
-            </AuthorizeView>
-        }
-
-
-
+            @if (expandSubNav)
+            {
+                <ul class="nav flex-column">
+                    <AuthorizeView Roles="Admin,Party">
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="PecMembersParty/PecMembersParty" Match="NavLinkMatch.All">
+                                <span class="oi oi-inbox" aria-hidden="true"></span>Դիտել
+                            </NavLink>
+                        </li>
+                    </AuthorizeView>
+                    <AuthorizeView Roles="Admin,BeforeDayInput">
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="PecMembersParty/PecMembersPartyAdd" Match="NavLinkMatch.All">
+                                <span class="oi oi-pencil" aria-hidden="true"></span>Լրացնել
+                            </NavLink>
+                        </li>
+                    </AuthorizeView>
+                </ul>
+            }
+        </li>
         <AuthorizeView Roles="Admin">
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="Administrator/Administrator" Match="NavLinkMatch.All">

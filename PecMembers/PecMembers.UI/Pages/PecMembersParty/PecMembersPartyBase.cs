@@ -390,6 +390,9 @@ namespace PecMembers.UI.Pages.PecMembersParty
                 workSheet.Column(6).Width = 20;
                 workSheet.Column(7).Width = 12;
 
+             
+               
+
                 #endregion
 
                 int i = 1;

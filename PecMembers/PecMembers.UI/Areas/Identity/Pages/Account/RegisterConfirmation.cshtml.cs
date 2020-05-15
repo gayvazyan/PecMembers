@@ -71,9 +71,8 @@ namespace PecMembers.UI.Areas.Identity.Pages.Account
             text.AppendLine("Ձեր Մուտքանուն է ՝"+user.UserName+"," );
             text.Append(System.Environment.NewLine);
             text.AppendLine(" գաղտնաբառն է՝ Sa123456! : Խնդրհում ենք հետագայում փոխել գաղտնաբառը։");
-            text.AppendLine(" ՏԸՀ անդամներ համակարգում ձեր գրանցումը հաջողությամբ ավարտելու համար անցեք հետևյալ հղմամբ՝ ");
-            text.AppendLine(EmailConfirmationUrl.ToString());
-            text.AppendLine(", եթե հղումը ակտիվ չէ պարզապես պատճենեք և գրոծարկեք որևէ դիտարկչում։");
+            //text.AppendLine(EmailConfirmationUrl.ToString());
+            text.AppendLine($"ՏԸՀ անդամներ համակարգում ձեր գրանցումը հաջողությամբ ավարտելու համար անցեք հետևյալ ՝ <a href='{EmailConfirmationUrl}'>հղմամբ</a>.");
             text.AppendLine("Եթե Դուք չէք գրանցվել վերը նշված համակարգում, պարզապես անտեսեք այս հաղորդագրությունը");
             text.AppendLine("Հարգանքներով Գարո");
             var textForMail=text.ToString();
